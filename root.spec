@@ -2,9 +2,8 @@
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag %(echo v%{realversion} | tr . -)
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
-Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
+Source: git+http://root.cern.ch/git/root.git?obj=%{branch}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
