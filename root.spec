@@ -1,8 +1,8 @@
-### RPM lcg root 5.34.07
+### RPM lcg root 5.34.09
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i  
 #Source: ftp://root.cern.ch/%n/%{n}_v%{realversion}.source.tar.gz
-%define tag %(echo v%{realversion} | tr . -)
+%define tag 4cc600e526ef0f7030450f100a9995386c8575e1
 %define branch %(echo %{realversion} | sed 's/\\.[0-9]*$/.00/;s/^/v/;s/$/-patches/g;s/\\./-/g')
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
@@ -19,7 +19,6 @@ Patch3: root-5.32.00-detect-arch
 Patch4: root-5.30.02-fix-gcc46
 Patch5: root-5.30.02-fix-isnan-again
 Patch6: root-5.34.05-cintex-armv7a-port
-Patch7: root-5.34.07-fix-fatal-removal-in-branch-names
 
 %define cpu %(echo %{cmsplatf} | cut -d_ -f2)
 
@@ -46,7 +45,6 @@ Requires: freetype
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch7 -p1
 
 %if %isarmv7
 %patch6 -p1
@@ -129,6 +127,13 @@ sed -ibak 's/\-std=c++11/-std=c++0x/g' \
   config/Makefile.linux \
   config/root-config.in \
   config/Makefile.linuxx8664gcc 
+
+cat <<\EOF >> MyConfig.mk
+CFLAGS+=-O0 -g3
+CXXFLAGS+=-O0 -g3
+CINTCFLAGS+=-O0 -g3
+CINTCXXFLAGS+=-O0 -g3
+EOF
 
 %if %isarmv7
 cp ./cint/iosenum/iosenum.linux3 ./cint/iosenum/iosenum.linuxarm3
