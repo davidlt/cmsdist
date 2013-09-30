@@ -1,34 +1,28 @@
-### RPM external gsl 1.10
-Source: ftp://ftp.gnu.org/gnu/%n/%n-%realversion.tar.gz
+### RPM external gsl 1.16
+Source: ftp://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Patch0:  gsl-1.10-gcc46
 
 %define keep_archives true
+%define drop_files %{i}/share
 
 %prep
-%setup -n %n-%{realversion}
+%setup -n %{n}-%{realversion}
 %patch0 -p1
 
 %build
-CFLAGS="-O2" ./configure --prefix=%i --with-pic
-case $(uname)-$(uname -m) in
-  Darwin-i386)
-   perl -p -i -e "s|#define HAVE_DARWIN_IEEE_INTERFACE 1|/* option removed */|" config.h;; 
-esac
+./configure \
+  --prefix=%{i} \
+  --with-pic \
+  --disable-dependency-tracking \
+  --disable-silent-rules \
+  CFLAGS="-O2"
 
-make %makeprocesses
+make %{makeprocesses}
 
 %install
 make install
 
-# Remove pkg-config to avoid rpm-generated dependency on /usr/bin/pkg-config
-# which we neither need nor use at this time.
-rm -rf %i/lib/pkgconfig
-
-# Strip libraries, we are not going to debug them.
-%define strip_files %i/lib
-rm -f %i/lib/*.la
-# Look up documentation online.
-%define drop_files %i/share
+find %{i}/lib -name '*.la' -delete
 
 %post
 %{relocateConfig}bin/gsl-config
