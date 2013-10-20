@@ -2,7 +2,7 @@
 %define release_version %(echo "%{realversion}" | tr . _)_RTM
 Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%{release_version}/src/nss-%{realversion}.tar.gz
 Requires: nspr-bootstrap sqlite-bootstrap
-Patch0: nss-3.15.2-0001-Add-support-for-non-standard-location-zlib.patch
+Patch0: nss-3.15.2-0001-Add-support-for-non-standard-location-zlib
 
 %define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*|*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
 
