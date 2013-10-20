@@ -1,4 +1,4 @@
-### RPM external bz2lib-bootstrap 1.0.5
+### RPM external bz2lib-bootstrap 1.0.6
 # Build system patches by Lassi A. Tuura <lat@iki.fi>
 Source: http://www.bzip.org/%{realversion}/bzip2-%{realversion}.tar.gz
 %define cpu %(echo "%{cmsplatf}" | cut -f2 -d_)
