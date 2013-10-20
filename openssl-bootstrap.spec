@@ -1,6 +1,6 @@
-### RPM external openssl-bootstrap 0.9.8e__1.0.1
+### RPM external openssl-bootstrap 0.9.8e__1.0.1e
 %define slc_version 0.9.8e
-%define generic_version 1.0.1
+%define generic_version 1.0.1e
 Source0: http://www.openssl.org/source/openssl-%{generic_version}.tar.gz
 Source1: http://cmsrep.cern.ch/cmssw/openssl-sources/openssl-fips-%{slc_version}-usa.tar.bz2
 Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
