@@ -3,7 +3,7 @@
 ## NOCOMPILER
 
 BuildRequires: gcc
-BuildRequires: bz2lib-bootstrap db4-bootstrap file-bootstrap libxml2-bootstrap lua-bootstrap nspr-bootstrap nss-bootstrap
+BuildRequires: bz2lib-bootstrap db6-bootstrap file-bootstrap libxml2-bootstrap lua-bootstrap nspr-bootstrap nss-bootstrap
 BuildRequires: openssl-bootstrap popt-bootstrap sqlite-bootstrap zlib-bootstrap xz-bootstrap
 
 %define keep_archives true
