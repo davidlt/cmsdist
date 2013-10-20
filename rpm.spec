@@ -20,14 +20,14 @@ Provides: perl(Specfile)
 # In order to work around the problem, we add a fake Provides statement.
 Provides: perl(Module::ScanDeps::DataFeed)
 
-Patch0: rpm-4.11.1-0001-Workaround-empty-buildroot-message.patch
-Patch1: rpm-4.11.1-0002-Increase-line-buffer-20x.patch
-Patch2: rpm-4.11.1-0003-Increase-macro-buffer-size-10x.patch
-Patch3: rpm-4.11.1-0004-Improve-file-deps-speed.patch
-Patch4: rpm-4.11.1-0005-Disable-internal-dependency-generator-libtool.patch
-Patch5: rpm-4.11.1-0006-Remove-chroot-checks.patch
-Patch6: rpm-4.11.1-0007-Fix-Darwin-requires-script-Argument-list-too-long.patch
-Patch7: rpm-4.11.1-0008-Fix-Darwin-provides-script.patch
+Patch0: rpm-4.11.1-0001-Workaround-empty-buildroot-message
+Patch1: rpm-4.11.1-0002-Increase-line-buffer-20x
+Patch2: rpm-4.11.1-0003-Increase-macro-buffer-size-10x
+Patch3: rpm-4.11.1-0004-Improve-file-deps-speed
+Patch4: rpm-4.11.1-0005-Disable-internal-dependency-generator-libtool
+Patch5: rpm-4.11.1-0006-Remove-chroot-checks
+Patch6: rpm-4.11.1-0007-Fix-Darwin-requires-script-Argument-list-too-long
+Patch7: rpm-4.11.1-0008-Fix-Darwin-provides-script
 
 # Defaults here
 %if %ismac
