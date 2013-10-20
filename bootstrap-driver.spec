@@ -195,6 +195,16 @@ fc*)
                               libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
                               glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
                               krb5-libs krb5-devel perl-Data-Dumper"
+
+  fc19_aarch64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl
+                              ncurses e2fsprogs krb5-libs freetype fontconfig libstdc++
+                              libidn libX11 libXmu libSM libICE libXcursor libXext libXrandr
+                              libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama
+                              libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
+                              libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
+                              glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
+                              krb5-libs krb5-devel perl-Data-Dumper"
+
   ;;
 esac
 
@@ -259,6 +269,7 @@ mkdir -p %{i}/etc/profile.d
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds\""; \
  echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
  echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
+ echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
  echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
  echo "slc6_mic_platformSeeds=\"$slc6_mic_platformSeeds\""; \
@@ -283,6 +294,7 @@ mkdir -p %{i}/etc/profile.d
  echo "slc5_amd64_platformSeeds=\"$slc5_amd64_platformSeeds $slc5_compPackages\""; \
  echo "fc18_armv7hl_platformSeeds=\"$fc18_armv7hl_platformSeeds\""; \
  echo "fc19_armv7hl_platformSeeds=\"$fc19_armv7hl_platformSeeds\""; \
+ echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
  echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds $slc5_compPackages\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
  echo "slc6_mic_platformSeeds=\"$slc6_mic_platformSeeds $slc6_compPackages\""; \
