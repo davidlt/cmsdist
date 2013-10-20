@@ -1,10 +1,9 @@
-### RPM external rpm 4.8.0
+### RPM external rpm 4.11.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
 ## NOCOMPILER
 
-%define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*) echo 1 ;; (*) echo 0 ;; esac)
-%define ismac   %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
+%define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 # Warning! While rpm itself seems to work, at the time of writing it
 # does not seem to be possible to build apt-rpm with 
 Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
@@ -21,31 +20,20 @@ Provides: perl(Specfile)
 # In order to work around the problem, we add a fake Provides statement.
 Provides: perl(Module::ScanDeps::DataFeed)
 
-Patch0: rpm-4.8.0-case-insensitive-sources
-Patch1: rpm-4.8.0-add-missing-__fxstat64
-Patch2: rpm-4.8.0-fix-glob_pattern_p
-Patch3: rpm-4.8.0-remove-strndup
-Patch4: rpm-4.8.0-case-insensitive-fixes
-Patch5: rpm-4.8.0-allow-empty-buildroot
-Patch6: rpm-4.8.0-remove-chroot-check
-Patch7: rpm-4.8.0-fix-missing-libgen
-Patch8: rpm-4.8.0-fix-find-provides
-Patch9: rpm-4.8.0-increase-line-buffer
-Patch10: rpm-4.8.0-increase-macro-buffer
-Patch11: rpm-4.8.0-improve-file-deps-speed
-Patch12: rpm-4.8.0-fix-fontconfig-provides
-Patch13: rpm-4.8.0-fix-find-requires-limit
-Patch14: rpm-4.8.0-disable-internal-dependency-generator-libtool
-Patch15: rpm-4.8.0-fix-arm
+Patch0: rpm-4.11.1-0001-Workaround-empty-buildroot-message.patch
+Patch1: rpm-4.11.1-0002-Increase-line-buffer-20x.patch
+Patch2: rpm-4.11.1-0003-Increase-macro-buffer-size-10x.patch
+Patch3: rpm-4.11.1-0004-Improve-file-deps-speed.patch
+Patch4: rpm-4.11.1-0005-Disable-internal-dependency-generator-libtool.patch
+Patch5: rpm-4.11.1-0006-Remove-chroot-checks.patch
+Patch6: rpm-4.11.1-0007-Fix-Darwin-requires-script-Argument-list-too-long.patch
+Patch7: rpm-4.11.1-0008-Fix-Darwin-provides-script.patch
 
 # Defaults here
 %if %ismac
 Provides: Kerberos
 %endif
 
-%prep
-%setup -n %n-%realversion
-rm -rf lib/rpmhash.*
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -53,15 +41,12 @@ rm -rf lib/rpmhash.*
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
-%patch15 -p1
+%patch7 -p1 
+
+# TODO: Include AArch64 patch: https://bugzilla.redhat.com/show_bug.cgi?id=974860
+
+%prep
+%setup -n %{n}-%{realversion}
 
 %build
 case %cmsplatf in
