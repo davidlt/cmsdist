@@ -1,4 +1,4 @@
-### RPM external libxml2-bootstrap 2.7.7
+### RPM external libxml2-bootstrap 2.9.1
 %define downloadv %(echo %{realversion} | cut -d"_" -f1)
 Source: ftp://xmlsoft.org/libxml2/libxml2-%{downloadv}.tar.gz
 %define strip_files %{i}/lib/lib* %{i}/bin/{xmlcatalog,xmllint}
