@@ -10,13 +10,9 @@ Source: https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v%{realversion}/sr
 pushd nspr
 
 # Update config.{sub,quess} for AArch64
-case %{cmsplatf} in
-  *_aarch64_* )
-    rm -f ./build/autoconf/config.{sub,guess}
-    curl -L -k -s -o ./build/autoconf/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-    curl -L -k -s -o ./build/autoconf/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-  ;;
-esac
+rm -f ./build/autoconf/config.{sub,guess}
+curl -L -k -s -o ./build/autoconf/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./build/autoconf/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 
 CONF_OPTS="--disable-static --prefix=%{i} --build=%{_build} --host=%{_host}"
 %if %isamd64
