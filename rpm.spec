@@ -8,7 +8,9 @@
 # does not seem to be possible to build apt-rpm with 
 Source: http://rpm.org/releases/rpm-%(echo %realversion | cut -f1,2 -d.).x/rpm-%{realversion}.tar.bz2
 
+
 Requires: bootstrap-bundle
+BuildRequires: autotools
 BuildRequires: gcc
 
 # The following two lines are a workaround for an issue seen with gcc4.1.2
@@ -28,12 +30,15 @@ Patch4: rpm-4.11.1-0005-Disable-internal-dependency-generator-libtool
 Patch5: rpm-4.11.1-0006-Remove-chroot-checks
 Patch6: rpm-4.11.1-0007-Fix-Darwin-requires-script-Argument-list-too-long
 Patch7: rpm-4.11.1-0008-Fix-Darwin-provides-script
+Patch8: rpm-4.11.1-0009-Do-not-use-PKG_CHECK_MODULES-to-check-lua-availabili.patch
 
 # Defaults here
 %if %ismac
 Provides: Kerberos
 %endif
 
+%prep
+%setup -n %{n}-%{realversion}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -42,13 +47,15 @@ Provides: Kerberos
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1 
+%patch8 -p1
 
 # TODO: Include AArch64 patch: https://bugzilla.redhat.com/show_bug.cgi?id=974860
 
-%prep
-%setup -n %{n}-%{realversion}
-
 %build
+
+# Reconfigure to drop pkg-config for lua
+autoreconf -fiv
+
 case %cmsplatf in
   slc*|fc*|*_mic_*)
     CFLAGS_PLATF="-fPIC"
