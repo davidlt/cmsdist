@@ -1,13 +1,11 @@
-### RPM external gcc 4.8.1
+### RPM external gcc 4.8.2
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 199526
+%define gccRevision 203690
 %define gccBranch gcc-%(echo %{realversion} | cut -f1,2 -d. | tr . _)-branch
 Source0: svn://gcc.gnu.org/svn/gcc/branches/%{gccBranch}?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
-Patch0: gcc-4.8.1-0000-pr-57748
-Patch1: gcc-4.8.1-0001-pr-58065
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -17,8 +15,8 @@ Patch1: gcc-4.8.1-0001-pr-58065
 
 %define keep_archives true
 
-%define gmpVersion 5.1.0a
-%define mpfrVersion 3.1.1 
+%define gmpVersion 5.1.3
+%define mpfrVersion 3.1.2
 %define mpcVersion 1.0.1
 %define islVersion 0.11.1
 %define cloogVersion 0.18.0
@@ -30,10 +28,10 @@ Source5: https://llvm.org/svn/llvm-project/compiler-rt/trunk/lib/asan/scripts/as
 Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 2.7
+%define bisonVersion 3.0
 %define binutilsVersion 2.23.2
-%define elfutilsVersion 0.156
-%define m4Version 1.4.16
+%define elfutilsVersion 0.157
+%define m4Version 1.4.17
 %define flexVersion 2.5.37
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
@@ -41,15 +39,12 @@ Patch2: binutils-2.23.2-0000-PR-gas-14987-14887
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Patch3: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
-Patch4: m4-1.4.16-fix-gets
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
 
 %prep
 
 %setup -T -b 0 -n gcc-%gccBranch-%gccRevision
-%patch0 -p1
-%patch1 -p1
 
 # Filter out private stuff from RPM requires headers.
 cat << \EOF > %{name}-req
@@ -97,7 +92,7 @@ cat << \EOF_CMS_H > gcc/config/general-cms.h
 EOF_CMS_H
 
 # GCC prerequisites
-%setup -D -T -b 1 -n gmp-5.1.0
+%setup -D -T -b 1 -n gmp-%{gmpVersion}
 %setup -D -T -b 2 -n mpfr-%{mpfrVersion}
 %setup -D -T -b 3 -n mpc-%{mpcVersion}
 %setup -D -T -b 4 -n isl-%{islVersion}
@@ -110,7 +105,6 @@ EOF_CMS_H
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
 %patch3 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
-%patch4 -p1
 %setup -D -T -b 11 -n flex-%{flexVersion}
 %endif
 
@@ -183,7 +177,7 @@ CXX="$CXX -fPIC"
 %endif
 
 # Build GMP
-cd ../gmp-5.1.0
+cd ../gmp-%{gmpVersion}
 ./configure --disable-static --prefix=%{i} --enable-shared --disable-static --enable-cxx \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
@@ -208,6 +202,10 @@ make install
 
 # Build ISL
 cd ../isl-%{islVersion}
+# Update for AArch64 support
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 ./configure --disable-static --with-gmp-prefix=%i --prefix=%{i} \
             --build=%{_build} --host=%{_host} \
             CC="$CC" CXX="$CXX" CPP="$CPP" CXXCPP="$CXXCPP"
@@ -242,6 +240,13 @@ case %{cmsplatf} in
                         --with-cpu=cortex-a9 --with-tune=cortex-a9 --with-arch=armv7-a \
                         --with-float=hard --with-fpu=%{armv7_fpu} --with-abi=aapcs-linux \
                         --disable-sjlj-exceptions"
+    ;;
+  *_aarch64_*)
+    CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
+                        --enable-bootstrap --enable-threads=posix --enable-__cxa_atexit \
+                        --disable-libunwind-exceptions --enable-gnu-unique-object \
+                        --enable-linker-build-id --with-linker-hash-style=gnu --enable-plugin \
+                        --enable-initfini-array --disable-dssi"
     ;;
 esac
 
