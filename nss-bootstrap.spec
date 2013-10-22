@@ -6,9 +6,6 @@ Patch0: nss-3.15.2-0001-Add-support-for-non-standard-location-zlib
 
 %define isamd64 %(case %{cmsplatf} in (*amd64*|*_mic_*|*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
 
-# TODO: No need for SQLite3, it's used only for libsoftokn3, which we do not distribute.
-#       Some details: http://www.linuxfromscratch.org/blfs/view/svn/postlfs/nss.html
-
 Requires: zlib-bootstrap
 
 %prep
