@@ -7,8 +7,9 @@ Source: http://rpm5.org/files/popt/popt-%{realversion}.tar.gz
 
 %build
 # Update to get AArch64
-rm -f ./config.sub && curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-rm -f ./config.guess && curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 
 ./configure --disable-static --disable-nls \
             --prefix %{i} --build="%{_build}" --host="%{_host}" \
