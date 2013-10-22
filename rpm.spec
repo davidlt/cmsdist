@@ -49,8 +49,6 @@ Provides: Kerberos
 %patch7 -p1 
 %patch8 -p1
 
-# TODO: Include AArch64 patch: https://bugzilla.redhat.com/show_bug.cgi?id=974860
-
 %build
 
 # Reconfigure to drop pkg-config for lua
