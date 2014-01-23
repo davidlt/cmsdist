@@ -1,4 +1,4 @@
-### RPM external libtiff 3.9.4
+### RPM external libtiff 4.0.3
 Source: http://download.osgeo.org/libtiff/tiff-%{realversion}.zip
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
@@ -17,12 +17,19 @@ Requires: zlib
 
 %prep
 %setup -n tiff-%{realversion}
+# Update to get AArch64
+rm -f ./config/config.{sub,guess}
+curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config/config.{sub,guess}
+
 %build
 ./configure --prefix=%{i} --disable-static \
             --with-zlib-lib-dir=$ZLIB_ROOT/lib \
             --with-zlib-include-dir=$ZLIB_ROOT/include \
             --with-jpeg-lib-dir=$LIBJPG_ROOT/lib \
             --with-jpeg-include-dir=$LIBJPG_ROOT/include \
+            --disable-dependency-tracking \
             CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
                           
 make %makeprocesses
