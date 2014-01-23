@@ -1,21 +1,29 @@
-### RPM external curl 7.28.0
+### RPM external curl 7.33.0
 Source: http://curl.haxx.se/download/%n-%realversion.tar.gz
-Provides: libcurl.so.3()(64bit) 
-Requires: openssl
+Requires: nss
 Requires: zlib
    
 %prep
 %setup -n %n-%{realversion}
 
 %build
-export OPENSSL_ROOT
 export ZLIB_ROOT
+export NSS_ROOT
 case %cmsplatf in
-  slc6*) KERBEROS_ROOT=/usr ;;
+  slc6*|fc*) KERBEROS_ROOT=/usr ;;
   slc5*) KERBEROS_ROOT=/usr/kerberos ;;
   osx*) KERBEROS_ROOT=/usr/heimdal ;;
 esac
-./configure --prefix=%i --disable-static --without-libidn --disable-ldap --with-ssl=${OPENSSL_ROOT} --with-zlib=${ZLIB_ROOT} --with-gssapi=$KERBEROS_ROOT
+
+# TODO: Use NSS for SSL support, not OpenSSL.
+# TODO: We need binutils 2.24.X for GSSAPI to link correctly.
+
+./configure \
+  --prefix=%{i} \
+  --disable-static \
+  --without-libidn \
+  --disable-ldap \
+  --with-zlib=${ZLIB_ROOT}
 # This should change link from "-lz" to "-lrt -lz", needed by gold linker
 # This is a fairly ugly way to do it, however.
 perl -p -i -e "s!\(LIBS\)!(LIBCURL_LIBS)!" src/Makefile
@@ -28,7 +36,6 @@ case %cmsos in
   *) SONAME=so ;;
 esac
 
-ln -s libcurl.$SONAME %i/lib/libcurl.$SONAME.3
 # Trick to get our version of curl pick up our version of its associated shared
 # library (which is different from the one coming from the system!).
 case %cmsos in
