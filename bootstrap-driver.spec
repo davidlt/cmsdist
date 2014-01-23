@@ -1,4 +1,4 @@
-### RPM external bootstrap-driver 20.0
+### RPM external bootstrap-driver 21.0
 ## NOCOMPILER
 
 Source: bootstrap
@@ -203,7 +203,8 @@ fc*)
                               libXrender libXpm gcc-c++ libcom_err libXpm-devel libXft-devel
                               libX11-devel libXext-devel mesa-libGLU mesa-libGLU-devel libGLEW
                               glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
-                              krb5-libs krb5-devel perl-Data-Dumper"
+                              krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
+                              time perl-Carp perl-Text-ParseWords perl-PathTools"
 
   ;;
 esac
