@@ -1,0 +1,47 @@
+From a570a25ac369140c691995b58be1e201e50e769e Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Fri, 1 Nov 2013 16:12:34 +0100
+Subject: [PATCH] Disable install_docs on install
+
+We do not need documentation for OpenSSL builds. There are errors
+in OpenSSL POD documention, thus on newer systems documentation
+install fails.
+
+X509_STORE_CTX_get_error.pod around line 281: You forgot a '=back'
+before '=head1'
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ Makefile     | 2 +-
+ Makefile.org | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 54e3541..9d4d22b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -539,7 +539,7 @@ dist:
+ dist_pem_h:
+ 	(cd crypto/pem; $(MAKE) -e $(BUILDENV) pem.h; $(MAKE) clean)
+ 
+-install: all install_docs install_sw
++install: all install_sw
+ 
+ install_sw:
+ 	@$(PERL) $(TOP)/util/mkdir-p.pl $(INSTALL_PREFIX)$(INSTALLTOP)/bin \
+diff --git a/Makefile.org b/Makefile.org
+index 2db31ea..944c9ad 100644
+--- a/Makefile.org
++++ b/Makefile.org
+@@ -537,7 +537,7 @@ dist:
+ dist_pem_h:
+ 	(cd crypto/pem; $(MAKE) -e $(BUILDENV) pem.h; $(MAKE) clean)
+ 
+-install: all install_docs install_sw
++install: all install_sw
+ 
+ install_sw:
+ 	@$(PERL) $(TOP)/util/mkdir-p.pl $(INSTALL_PREFIX)$(INSTALLTOP)/bin \
+-- 
+1.8.0
+
