@@ -142,6 +142,10 @@ CXX="$CXX -fPIC"
 
   # Build Flex
   cd ../flex-%{flexVersion}
+  # Update for AArch64 support
+  rm -f ./config.{sub,guess}
+  curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+  curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
   ./configure --disable-nls --prefix=%{i}/tmp/flex \
               --build=%{_build} --host=%{_host} \
               CC="$CC" CXX="$CXX"
