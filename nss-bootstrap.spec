@@ -8,6 +8,8 @@ Patch0: nss-3.15.2-0001-Add-support-for-non-standard-location-zlib
 
 Requires: zlib-bootstrap
 
+%define strip_files %{i}/lib
+
 %prep
 %setup -n nss-%{realversion}
 %patch0 -p1
@@ -33,12 +35,11 @@ make -C ./nss/lib/dbm
 make -C ./nss 
 
 %install
-rm -rf %{i}/lib/libsoftokn3*
-rm -rf %{i}/lib/libsql*
-rm -rf %{i}/lib/libfreebl3*
-
 install -d %{i}/include/nss3
 install -d %{i}/lib
 find ./dist/public/nss -name '*.h' -exec install -m 644 {} %{i}/include/nss3 \;
 find ./dist/*.OBJ/lib -name '*.dylib' -o -name '*.so' -exec install -m 755 {} %{i}/lib \;
-%define strip_files %{i}/lib
+
+rm -rf %{i}/lib/libsoftokn3*
+rm -rf %{i}/lib/libsql*
+rm -rf %{i}/lib/libfreebl3*
