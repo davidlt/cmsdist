@@ -1,4 +1,4 @@
-### RPM external apt 0.5.17
+### RPM external apt 0.5.17.2
 ## INITENV SET APT_CONFIG %{i}/etc/apt.conf
 ## INITENV CMD_SH  if [ -f %{instroot}/common/apt-site-env.sh  ]; then . %{instroot}/common/apt-site-env.sh;  fi
 ## INITENV CMD_CSH if ( -f %{instroot}/common/apt-site-env.csh )  source %{instroot}/common/apt-site-env.csh; endif
@@ -27,7 +27,7 @@ case %cmsplatf in
     export USER_RPM_LIBS="-ldl"
     ;;
   fc*)
-    export USER_RPM_LIBS="-ldl"
+    export USER_RPM_LIBS="-ldl -lrt -pthread"
     ;;
   *) ;;
 esac
