@@ -25,6 +25,8 @@ cmsos()
       echo suse`grep -i '^version' < /etc/SuSE-release | tr -dc '[0-9]'`
     elif [ -f /etc/fedora-release ]; then
       echo fc`sed 's/[^0-9]//g' /etc/fedora-release`_${cpuarch}
+    elif [ -f /etc/arm64-release ]; then
+      echo redhat_aarch64
     elif egrep -q "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release 2>/dev/null; then
       slc_version=`egrep "Red Hat Enterprise|Scientific|CentOS" /etc/redhat-release | \
 		   sed 's/.*[rR]elease \([0-9]*\).*/\1/'`

@@ -53,6 +53,7 @@ then
         fc18_*) compilerv=gcc481; osarch=fc18_armv7hl ;;
         fc19_armv7hl_*) compilerv=gcc481; osarch=fc19_armv7hl ;;
         fc19_aarch64_*) compilerv=gcc482; osarch=fc19_aarch64 ;;
+        redhat_aarch64_*) compilerv=gcc482; osarch=redhat_aarch64 ;;
         *) compilerv=gcc462; osarch=slc5_amd64 ;;
     esac
     echo ${osarch}_${compilerv}
