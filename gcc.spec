@@ -29,13 +29,12 @@ Source6: ftp://gcc.gnu.org/pub/gcc/infrastructure/cloog-%{cloogVersion}.tar.gz
 
 %if %islinux
 %define bisonVersion 3.0
-%define binutilsVersion 2.23.2
-%define elfutilsVersion 0.157
+%define binutilsVersion 2.24
+%define elfutilsVersion 0.158
 %define m4Version 1.4.17
 %define flexVersion 2.5.37
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
-Patch2: binutils-2.23.2-0000-PR-gas-14987-14887
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
 Patch3: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
@@ -101,7 +100,6 @@ EOF_CMS_H
 %if %islinux
 %setup -D -T -b 7 -n bison-%{bisonVersion}
 %setup -D -T -b 8 -n binutils-%{binutilsVersion}
-%patch2 -p1
 %setup -D -T -b 9 -n elfutils-%{elfutilsVersion}
 %patch3 -p1
 %setup -D -T -b 10 -n m4-%{m4Version}
