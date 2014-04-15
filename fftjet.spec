@@ -23,6 +23,12 @@ Requires: gfortran-macosx
 %patch1 -p1
 
 %build
+# Update for AArch64 support
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
+
 # On old architectures we build dynamic libraries, on new ones,
 # archive ones.
 case %cmsplatf in 
