@@ -1,0 +1,26 @@
+From a6ee25795fda976e52556e42eb6bf9defcd9fb38 Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Sat, 19 Oct 2013 17:37:51 +0200
+Subject: [PATCH 8/8] Fix Darwin provides script
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ autodeps/darwin.prov | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/autodeps/darwin.prov b/autodeps/darwin.prov
+index b068912..515162f 100644
+--- a/autodeps/darwin.prov
++++ b/autodeps/darwin.prov
+@@ -5,7 +5,7 @@
+ # This script reads filenames from STDIN and outputs any relevant provides
+ # information that needs to be included in the package.
+ 
+-filelist=$(sed -n -e '/\.dylib/p' -e '/\.so/p' -e '/\.bundle/p' | sort | uniq | xargs file -L 2>/dev/null | grep "Mach-O.*\(ppc\|i386\)" | cut -d: -f1)
++filelist=$(sed -n -e '/\.dll/p' -e '/\.dylib/p' -e '/\.iglet/p' -e '/\.so/p' -e '/\.bundle/p' | sort | uniq | xargs file -L 2>/dev/null | grep "Mach-O.*\(ppc\|i386\|x86_64\|64-bit\)" | cut -d: -f1)
+ 
+ for f in $filelist; do
+     libname=$(basename $f | sed -e 's;\..*;;')
+-- 
+1.8.0
+
