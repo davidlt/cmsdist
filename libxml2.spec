@@ -3,14 +3,15 @@ Source: ftp://xmlsoft.org/%{n}/%{n}-%{realversion}.tar.gz
 %define strip_files %{i}/lib/lib* %{i}/bin/{xmlcatalog,xmllint}
 %define drop_files %{i}/share/{man,doc,gtk-doc}
 
-Requires: zlib
+Requires: zlib xz
 
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
 ./configure --disable-static --prefix=%{i} --build="%{_build}" \
-            --host="%{_host}" --with-zlib="${ZLIB_ROOT}" --without-python
+            --host="%{_host}" --with-zlib="${ZLIB_ROOT}" \
+            --with-lzma="${XZ_ROOT}" --without-python
 make %{makeprocesses}
 
 %install
