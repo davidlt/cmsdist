@@ -1,12 +1,15 @@
-### RPM external sqlite-bootstrap 3.7.17
-Source: http://www.sqlite.org/2013/sqlite-autoconf-3071700.tar.gz
+### RPM external sqlite-bootstrap 3.8.4.3
+Source: https://sqlite.org/2014/sqlite-autoconf-3080403.tar.gz
+
+BuildRequires: autotools
 
 %prep
-%setup -n sqlite-autoconf-3071700
+%setup -n sqlite-autoconf-3080403
 
 %build
+
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
-            --disable-tcl --disable-static
+            --disable-static --disable-dependency-tracking
 make %{makeprocesses}
 
 %install
