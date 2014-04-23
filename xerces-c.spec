@@ -1,58 +1,46 @@
-### RPM external xerces-c 2.8.0
-%define xercesv %(echo %realversion | tr . _)
-Source: http://archive.apache.org/dist/xml/xerces-c/sources/xerces-c-src_%xercesv.tar.gz 
-Patch0: xerces-c-2.8.0-osx106
-Patch1: xerces-c-2.8.0-fix-narrowing-conversion
+### RPM external xerces-c 3.1.1
+Source: http://mirror.switch.ch/mirror/apache/dist//xerces/c/3/sources/xerces-c-%{realversion}.tar.gz
+
+Requires: curl
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
 
 %if "%{?cms_cxxflags:set}" != "set"
-%define cms_cxxflags -std=c++0x
+%define cms_cxxflags -std=c++11
 %endif
 
 %prep
-%setup -n xerces-c-src_%xercesv
+%setup -n %{n}-%{realversion}
 
-case %cmsplatf in
-  osx*)
-%patch0 -p1
-  ;;
-esac
-
-%patch1 -p1
+# Update to get AArch64
+rm -f ./config/config.{sub,guess}
+curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config/config.{sub,guess}
 
 %build
-export XERCESCROOT=$PWD
-cd $PWD/src/xercesc
-
-export CXXFLAGS="%cms_cxxflags"
-export VERBOSE=1
-
-case %cmsplatf in
-  osx108_*)
-    # For OS X ("Mountain Lion") do not use Objective-C in C and C++ code.
-    export CXXFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
-    export CFLAGS="${CXXFLAGS} -DOS_OBJECT_USE_OBJC=0"
-  ;;
-esac
-
-case %{cmsplatf} in
-  slc*)
-    ./runConfigure -P%{i} -plinux -cgcc -x%{cms_cxx} ;;
+CFLAGS=
+CXXFLAGS="%{cms_cxxflags}"
+case "%{cmsplatf}" in
   osx*)
-    ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
-  *armv7*)
-    ./runConfigure -P%{i} -b 32 -plinux -cgcc -x%{cms_cxx} ;;
-  *)
-    echo "Unsupported configuration. Please modify SPEC file accordingly."
-    exit 1
+    CFLAGS="-arch x86_64 ${CFLAGS}"
+    CXXFLAGS="-arch x86_64 ${CXXFLAGS}"
+    ;;
 esac
 
-make
+./configure \
+  --prefix=%{i} \
+  --disable-rpath \
+  --disable-static \
+  --disable-pretty-make \
+  --disable-dependency-tracking \
+  --with-curl="${CURL_ROOT}" \
+  CFLAGS="${CFLAGS}" \
+  CXXFLAGS="${CXXFLAGS}"
+
+make %{makeprocesses}
 
 %install
-export XERCESCROOT=$PWD
-cd src/xercesc
 make install
