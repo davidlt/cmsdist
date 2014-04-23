@@ -4,36 +4,36 @@ index 4a40b70..1cba569 100644
 +++ b/Makefile
 @@ -347,7 +347,7 @@ build-shared: do_$(SHLIB_TARGET) link-shared
  do_$(SHLIB_TARGET):
-  @ set -e; libs='-L. $(SHLIBDEPS)'; for i in $(SHLIBDIRS); do \
-    if [ "$$i" = "ssl" -a -n "$(LIBKRB5)" ]; then \
--                       libs="$(LIBKRB5) $$libs"; \
-+                       libs="$$libs $(LIBKRB5)"; \
-    fi; \
-    $(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
-      LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
+ 	@ set -e; libs='-L. $(SHLIBDEPS)'; for i in $(SHLIBDIRS); do \
+ 		if [ "$$i" = "ssl" -a -n "$(LIBKRB5)" ]; then \
+-			libs="$(LIBKRB5) $$libs"; \
++			libs="$$libs $(LIBKRB5)"; \
+ 		fi; \
+ 		$(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
+ 			LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
 diff --git a/Makefile.bak b/Makefile.bak
 index 67af132..a13354f 100644
 --- a/Makefile.bak
 +++ b/Makefile.bak
 @@ -347,7 +347,7 @@ build-shared: do_$(SHLIB_TARGET) link-shared
  do_$(SHLIB_TARGET):
-  @ set -e; libs='-L. $(SHLIBDEPS)'; for i in $(SHLIBDIRS); do \
-    if [ "$$i" = "ssl" -a -n "$(LIBKRB5)" ]; then \
--                       libs="$(LIBKRB5) $$libs"; \
-+                       libs="$$libs $(LIBKRB5)"; \
-    fi; \
-    $(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
-      LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
+ 	@ set -e; libs='-L. $(SHLIBDEPS)'; for i in $(SHLIBDIRS); do \
+ 		if [ "$$i" = "ssl" -a -n "$(LIBKRB5)" ]; then \
+-			libs="$(LIBKRB5) $$libs"; \
++			libs="$$libs $(LIBKRB5)"; \
+ 		fi; \
+ 		$(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
+ 			LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
 diff --git a/Makefile.org b/Makefile.org
 index c92806f..864fcc1 100644
 --- a/Makefile.org
 +++ b/Makefile.org
 @@ -345,7 +345,7 @@ build-shared: do_$(SHLIB_TARGET) link-shared
  do_$(SHLIB_TARGET):
-  @ set -e; libs='-L. $(SHLIBDEPS)'; for i in $(SHLIBDIRS); do \
-    if [ "$$i" = "ssl" -a -n "$(LIBKRB5)" ]; then \
--                       libs="$(LIBKRB5) $$libs"; \
-+                       libs="$$libs $(LIBKRB5)"; \
-    fi; \
-    $(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
-      LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
+ 	@ set -e; libs='-L. $(SHLIBDEPS)'; for i in $(SHLIBDIRS); do \
+ 		if [ "$$i" = "ssl" -a -n "$(LIBKRB5)" ]; then \
+-			libs="$(LIBKRB5) $$libs"; \
++			libs="$$libs $(LIBKRB5)"; \
+ 		fi; \
+ 		$(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
+ 			LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
