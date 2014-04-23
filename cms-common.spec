@@ -42,17 +42,18 @@ compilerv=gcc462
 if [ ! "$SCRAM_ARCH" ]
 then
     case $osarch in
-        osx104_ia32) compilerv=gcc401;;
-        osx104_ppc32) compilerv=gcc400;;
-        osx105_*) compilerv=gcc401;;
-        osx106_*) compilerv=gcc421;;
-        osx107_*) compilerv=gcc462;;
-        osx108_*) compilerv=gcc472;;
-        slc6_*) compilerv=gcc472; osarch=slc6_amd64;;
-        slc5_*) compilerv=gcc462; osarch=slc5_amd64;;
-        fc18_*) compilerv=gcc481; osarch=fc18_armv7hl;;
-        fc19_*) compilerv=gcc481; osarch=fc19_armv7hl;;
-        *) compilerv=gcc462; osarch=slc5_amd64;;
+        osx104_ia32) compilerv=gcc401 ;;
+        osx104_ppc32) compilerv=gcc400 ;;
+        osx105_*) compilerv=gcc401 ;;
+        osx106_*) compilerv=gcc421 ;;
+        osx107_*) compilerv=gcc462 ;;
+        osx108_*) compilerv=gcc472 ;;
+        slc6_*) compilerv=gcc472; osarch=slc6_amd64 ;;
+        slc5_*) compilerv=gcc462; osarch=slc5_amd64 ;;
+        fc18_*) compilerv=gcc481; osarch=fc18_armv7hl ;;
+        fc19_armv7hl_*) compilerv=gcc481; osarch=fc19_armv7hl ;;
+        fc19_aarch64_*) compilerv=gcc490; osarch=fc19_aarch64 ;;
+        *) compilerv=gcc462; osarch=slc5_amd64 ;;
     esac
     echo ${osarch}_${compilerv}
 else
