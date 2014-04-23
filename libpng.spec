@@ -1,4 +1,4 @@
-### RPM external libpng 1.6.0
+### RPM external libpng 1.6.7
 Source: http://download.sourceforge.net/%{n}/%{n}-%{realversion}.tar.gz
 %define online %(case %{cmsplatf} in (*onl_*_*) echo true;; (*) echo false;; esac)
 
