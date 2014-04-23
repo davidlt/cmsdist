@@ -1,7 +1,7 @@
-### RPM external python 2.7.3
-## INITENV +PATH PATH %i/bin 
-## INITENV +PATH LD_LIBRARY_PATH %i/lib
-## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
+### RPM external python 2.7.5
+## INITENV +PATH PATH %{i}/bin
+## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
+## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib64/python%{python_major_version}/site-packages
 ## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
@@ -9,7 +9,7 @@
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 
-Requires: expat bz2lib db4 gdbm openssl
+Requires: expat bz2lib db6 gdbm openssl libffi
 
 %if %isnotonline
 Requires: zlib sqlite readline
@@ -19,10 +19,14 @@ Requires: zlib sqlite readline
 # FIXME: gmp, panel, tk/tcl, x11
 
 Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch0: python-2.7.3-dont-detect-dbm
 Patch1: python-fix-macosx-relocation
 Patch2: python-2.7.3-fix-pyport
 Patch3: python-2.7.3-ssl-fragment
+Patch4: python-2.7.5-lib64-fix-for-test_install
+Patch5: python-2.7.5-lib64-sysconfig
+Patch6: python-2.7.5-lib64
+Patch7: python-2.7.5-dont-detect-dbm
+Patch8: python-2.7.5-fix-libffi-paths
 
 %prep
 %setup -n Python-%realversion
@@ -31,7 +35,6 @@ find . -type f | while read f; do
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch0 -p1
 %patch1 -p0
 
 %if %isdarwin
@@ -39,6 +42,20 @@ done
 %endif
 
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+
+rm -rf Modules/expat || exit 1
+rm -rf Modules/zlib || exit 1
+for SUBDIR in darwin libffi libffi_arm_wince libffi_msvc libffi_osx ; do
+  rm -rf Modules/_ctypes/$SUBDIR || exit 1 ;
+done
+for FILE in md5module.c md5.c shamodule.c sha256module.c sha512module.c ; do
+  rm -f Modules/$FILE || exit 1
+done
 
 %build
 # Python is awkward about passing other include or library directories
@@ -53,7 +70,7 @@ done
 # linked specifically, or could be built by ourselves, depending on
 # whether we like to pick up system libraries or want total control.
 #mkdir -p %i/include %i/lib
-mkdir -p %i/include %i/lib %i/bin
+mkdir -p %{i}/{include,lib64,bin}
 
 %if %isnotonline
 %define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
@@ -61,19 +78,20 @@ mkdir -p %i/include %i/lib %i/bin
 %define extradirs %{nil}
 %endif
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} %{extradirs}" 
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} %{extradirs}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
+export LIBFFI_ROOT
 
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
 LDFLAGS=""
 CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L $d/lib"
-  CPPFLAGS="$CPPFLAGS -I $d/include"
+  LDFLAGS="$LDFLAGS -L$d/lib"
+  CPPFLAGS="$CPPFLAGS -I$d/include"
 done
 export LDFLAGS
 export CPPFLAGS
@@ -81,7 +99,15 @@ export CPPFLAGS
 # Bugfix for dbm package. Use ndbm.h header and gdbm compatibility layer.
 sed -ibak "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 
-./configure --prefix=%i $additionalConfigureOptions --enable-shared
+sed -ibak "s|LIBFFI_INCLUDEDIR=.*|LIBFFI_INCLUDEDIR=\"${LIBFFI_ROOT}/include\"|g" configure
+
+./configure \
+  --prefix=%{i} \
+  --libdir=%{i}/lib64 \
+  --enable-shared \
+  --with-system-ffi \
+  --with-system-expat \
+  $additionalConfigureOptions
 
 # Modify pyconfig.h to match macros from GLIBC features.h on Linux machines.
 # _POSIX_C_SOURCE and _XOPEN_SOURCE macros are not identical anymore
@@ -122,6 +148,7 @@ make %makeprocesses
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
 export DB4_ROOT
+export LIBFFI_ROOT
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
@@ -131,18 +158,18 @@ case %cmsplatf in
    (cd Misc; /bin/rm -rf RPM)
    mkdir -p %i/share/doc/%n
    cp -R Demo Doc %i/share/doc/%n
-   cp -R Misc Tools %i/lib/python%{pythonv}
+   cp -R Misc Tools %i/lib64/python%{pythonv}
    gcc -dynamiclib -all_load -single_module \
     -framework System -framework CoreServices -framework Foundation \
-    %i/lib/python%{pythonv}/config/libpython%{pythonv}.a \
+    %i/lib64/python%{pythonv}/config/libpython%{pythonv}.a \
     -undefined dynamic_lookup \
-    -o %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
-    -install_name %i/lib/python%{pythonv}/config/libpython%{pythonv}.dylib \
+    -o %i/lib64/python%{pythonv}/config/libpython%{pythonv}.dylib \
+    -install_name %i/lib64/python%{pythonv}/config/libpython%{pythonv}.dylib \
     -current_version %{pythonv} -compatibility_version %{pythonv} -ldl
-   (cd %i/lib/python%{pythonv}/config
+   (cd %i/lib64/python%{pythonv}/config
     perl -p -i -e 's|-fno-common||g' Makefile)
 
-   find %i/lib/python%{pythonv}/config -name 'libpython*' -exec mv -f {} %i/lib \;
+   find %i/lib64/python%{pythonv}/config -name 'libpython*' -exec mv -f {} %i/lib64 \;
   ;;
 esac
 
@@ -153,7 +180,7 @@ esac
                      %{i}/bin/python2.7-config \
                      %{i}/bin/smtpd.py
 
-find %{i}/lib -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
+find %{i}/lib64 -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 find %{i}/include -maxdepth 1 -mindepth 1 ! -name '*python*' -exec rm {} \;
 
 # remove executable permission anything which is *.py script,
@@ -164,17 +191,17 @@ find %i -name '*.py' -perm +0111 | while read f; do
 done
 
 # remove tkinter that brings dependency on libtk:
-find %{i}/lib -type f -name "_tkinter.so" -exec rm {} \;
+find %{i}/lib64 -type f -name "_tkinter.so" -exec rm {} \;
 
 # Remove documentation, examples and test files. 
-%define drop_files { %i/share %{i}/lib/python%{pythonv}/test \
-                   %{i}/lib/python%{pythonv}/distutils/tests \
-                   %{i}/lib/python%{pythonv}/json/tests \
-                   %{i}/lib/python%{pythonv}/ctypes/test \
-                   %{i}/lib/python%{pythonv}/sqlite3/test \
-                   %{i}/lib/python%{pythonv}/bsddb/test \
-                   %{i}/lib/python%{pythonv}/email/test \
-                   %{i}/lib/python%{pythonv}/lib2to3/tests }
+%define drop_files { %i/share %{i}/lib64/python%{pythonv}/test \
+                   %{i}/lib64/python%{pythonv}/distutils/tests \
+                   %{i}/lib64/python%{pythonv}/json/tests \
+                   %{i}/lib64/python%{pythonv}/ctypes/test \
+                   %{i}/lib64/python%{pythonv}/sqlite3/test \
+                   %{i}/lib64/python%{pythonv}/bsddb/test \
+                   %{i}/lib64/python%{pythonv}/email/test \
+                   %{i}/lib64/python%{pythonv}/lib2to3/tests }
 
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;
@@ -192,5 +219,5 @@ for tool in $(echo %{requiredtools} | sed -e's|\s+| |;s|^\s+||'); do
 done
 
 %post
-%{relocateConfig}lib/python2.7/config/Makefile
+%{relocateConfig}lib64/python2.7/config/Makefile
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
