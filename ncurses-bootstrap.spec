@@ -27,4 +27,4 @@ chmod +x ./config.{sub,guess}
 make %{makeprocesses} CFLAGS="-O2 -fPIC" CXXFLAGS="-O2 -fPIC -std=c++11"
 
 %install
-make instal
+make install
