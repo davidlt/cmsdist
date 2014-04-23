@@ -3,9 +3,9 @@
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 209275
-%define gccBranch trunk
-Source0: svn://gcc.gnu.org/svn/gcc/trunk?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
+%define gccRevision 209612
+%define gccBranch gcc-%(echo %{realversion} | cut -f1,2 -d. | tr . _)-branch
+Source0: svn://gcc.gnu.org/svn/gcc/branches/%{gccBranch}?module=gcc-%{gccBranch}-%{gccRevision}&revision=%{gccRevision}&output=/gcc-%{gccBranch}-%{gccRevision}.tar.gz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
@@ -34,7 +34,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 %define binutilsVersion 2.24
 %define elfutilsVersion 0.158
 %define m4Version 1.4.17
-%define flexVersion 2.5.37
+%define flexVersion 2.5.39
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
@@ -164,12 +164,11 @@ make install
 
   # Build Flex
   cd ../flex-%{flexVersion}
-  ./configure --disable-nls --prefix=%{i}/tmp/sw \
+  ./configure --disable-nls --prefix=%{i} \
               --build=%{_build} --host=%{_host} \
               CC="$CC" CXX="$CXX"
   make %{makeprocesses}
   make install
-  hash -r
 
   # Build Bison
   cd ../bison-%{bisonVersion}
@@ -252,20 +251,20 @@ CONF_GCC_ARCH_SPEC=
 case %{cmsplatf} in
   *_armv7hl_*)
     CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
-                        --enable-bootstrap --enable-threads=posix --enable-__cxa_atexit \
-                        --disable-libunwind-exceptions --enable-gnu-unique-object \
-                        --with-linker-hash-style=gnu --enable-plugin --enable-initfini-array \
-                        --enable-linker-build-id --disable-build-with-cxx --disable-build-poststage1-with-cxx \
+                        --enable-bootstrap --enable-threads=posix --enable-initfini-array \
+                        --disable-build-with-cxx --disable-build-poststage1-with-cxx \
                         --with-cpu=cortex-a9 --with-tune=cortex-a9 --with-arch=armv7-a \
                         --with-float=hard --with-fpu=%{armv7_fpu} --with-abi=aapcs-linux \
                         --disable-sjlj-exceptions"
+    ;;
+  *_aarch64_*)
+    CONF_GCC_ARCH_SPEC="$CONF_GCC_ARCH_SPEC \
+                        --enable-bootstrap --enable-threads=posix --enable-initfini-array"
     ;;
 esac
 
 # Build GCC
 cd ../gcc-%{gccBranch}-%{gccRevision}
-rm gcc/DEV-PHASE
-touch gcc/DEV-PHASE
 mkdir -p obj
 cd obj
 export LD_LIBRARY_PATH=%{i}/lib64:%{i}/lib:$LD_LIBRARY_PATH
