@@ -1,5 +1,5 @@
 ### RPM external db6 6.0.30
-Source: http://davidlt.web.cern.ch/davidlt/sources/db-%{realversion}.gz
+Source: http://davidlt.web.cern.ch/davidlt/sources/db-%{realversion}.tar.gz
 %define drop_files %{i}/docs
 %define strip_files %{i}/lib
 
