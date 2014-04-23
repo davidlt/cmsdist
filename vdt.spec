@@ -7,6 +7,7 @@ BuildRequires: cmake
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 %define iscpu_marvell %(cat /proc/cpuinfo | grep 'Marvell PJ4Bv7' 2>&1 >/dev/null && echo 1 || echo 0)
+%define isarm64 %(case %{cmsplatf} in (*aarch64*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -23,7 +24,17 @@ cmake . \
   -DCMAKE_CXX_COMPILER="%{cms_cxx}" \
   -DCMAKE_INSTALL_PREFIX=%{i} \
   -DPRELOAD:BOOL=ON \
-  -DSSE:BOOL=ON 
+  -DSSE:BOOL=ON \
+  -DNEON:BOOL=OFF
+%endif
+
+%if %isarm64
+cmake . \
+  -DCMAKE_CXX_COMPILER="%{cms_cxx}" \
+  -DCMAKE_INSTALL_PREFIX=%{i} \
+  -DPRELOAD:BOOL=ON \
+  -DSSE:BOOL=OFF \
+  -DNEON:BOOL=OFF
 %endif
 
 %if %isarmv7
