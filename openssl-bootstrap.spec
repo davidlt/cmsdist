@@ -7,8 +7,8 @@ Patch0: openssl-0.9.8e-rh-0.9.8e-12.el5_4.6
 Patch1: openssl-x86-64-gcc420
 Patch2: openssl-1.0.1g-disable-install_docs
 Patch3: openssl-1.0.1g-use-lib64-for-krb5
-Patch4: openssl-1.0.1g-fix-libcrypto-linkage
-Patch5: openssl-1.0.1-beta2-rpmbuild
+Patch4: openssl-1.0.1-beta2-rpmbuild
+Patch5: openssl-1.0.1g-fix-libcrypto-linkage
 
 %define ismac %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isfc %(case %{cmsplatf} in (fc*) echo 1 ;; (*) echo 0 ;; esac)

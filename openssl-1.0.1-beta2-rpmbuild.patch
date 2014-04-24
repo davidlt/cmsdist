@@ -1,7 +1,8 @@
-diff -up openssl-1.0.1-beta2/Configure.rpmbuild openssl-1.0.1-beta2/Configure
---- openssl-1.0.1-beta2/Configure.rpmbuild	2012-01-05 01:07:34.000000000 +0100
-+++ openssl-1.0.1-beta2/Configure	2012-02-02 12:43:56.547409325 +0100
-@@ -343,23 +343,23 @@ my %table=(
+diff --git a/Configure b/Configure
+index 86bee41..4cdf9f9 100755
+--- a/Configure
++++ b/Configure
+@@ -345,23 +345,23 @@ my %table=(
  ####
  # *-generic* is endian-neutral target, but ./config is free to
  # throw in -D[BL]_ENDIAN, whichever appropriate...
@@ -34,7 +35,7 @@ diff -up openssl-1.0.1-beta2/Configure.rpmbuild openssl-1.0.1-beta2/Configure
  #### So called "highgprs" target for z/Architecture CPUs
  # "Highgprs" is kernel feature first implemented in Linux 2.6.32, see
  # /proc/cpuinfo. The idea is to preserve most significant bits of
-@@ -373,16 +373,17 @@ my %table=(
+@@ -375,16 +375,17 @@ my %table=(
  # ldconfig and run-time linker to autodiscover. Unfortunately it
  # doesn't work just yet, because of couple of bugs in glibc
  # sysdeps/s390/dl-procinfo.c affecting ldconfig and ld.so.1...
@@ -56,7 +57,7 @@ diff -up openssl-1.0.1-beta2/Configure.rpmbuild openssl-1.0.1-beta2/Configure
  #### Alpha Linux with GNU C and Compaq C setups
  # Special notes:
  # - linux-alpha+bwx-gcc is ment to be used from ./config only. If you
-@@ -396,8 +397,8 @@ my %table=(
+@@ -398,8 +399,8 @@ my %table=(
  #
  #					<appro@fy.chalmers.se>
  #
@@ -67,7 +68,7 @@ diff -up openssl-1.0.1-beta2/Configure.rpmbuild openssl-1.0.1-beta2/Configure
  "linux-alpha-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
  "linux-alpha+bwx-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
  
-@@ -1678,7 +1679,7 @@ while (<IN>)
+@@ -1674,7 +1675,7 @@ while (<IN>)
  	elsif ($shared_extension ne "" && $shared_extension =~ /^\.s([ol])\.[^\.]*\.[^\.]*$/)
  		{
  		my $sotmp = $1;
@@ -76,9 +77,10 @@ diff -up openssl-1.0.1-beta2/Configure.rpmbuild openssl-1.0.1-beta2/Configure
  		}
  	elsif ($shared_extension ne "" && $shared_extension =~ /^\.[^\.]*\.[^\.]*\.dylib$/)
  		{
-diff -up openssl-1.0.1-beta2/Makefile.org.rpmbuild openssl-1.0.1-beta2/Makefile.org
---- openssl-1.0.1-beta2/Makefile.org.rpmbuild	2011-12-27 16:17:50.000000000 +0100
-+++ openssl-1.0.1-beta2/Makefile.org	2012-02-02 12:30:23.652495435 +0100
+diff --git a/Makefile.org b/Makefile.org
+index d8dbf29..5c48c79 100644
+--- a/Makefile.org
++++ b/Makefile.org
 @@ -10,6 +10,7 @@ SHLIB_VERSION_HISTORY=
  SHLIB_MAJOR=
  SHLIB_MINOR=
@@ -87,7 +89,7 @@ diff -up openssl-1.0.1-beta2/Makefile.org.rpmbuild openssl-1.0.1-beta2/Makefile.
  PLATFORM=dist
  OPTIONS=
  CONFIGURE_ARGS=
-@@ -333,10 +334,9 @@ clean-shared:
+@@ -334,10 +335,9 @@ clean-shared:
  link-shared:
  	@ set -e; for i in $(SHLIBDIRS); do \
  		$(MAKE) -f $(HERE)/Makefile.shared -e $(BUILDENV) \
@@ -99,7 +101,7 @@ diff -up openssl-1.0.1-beta2/Makefile.org.rpmbuild openssl-1.0.1-beta2/Makefile.
  	done
  
  build-shared: do_$(SHLIB_TARGET) link-shared
-@@ -347,7 +347,7 @@ do_$(SHLIB_TARGET):
+@@ -348,7 +348,7 @@ do_$(SHLIB_TARGET):
  			libs="$(LIBKRB5) $$libs"; \
  		fi; \
  		$(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \

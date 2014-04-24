@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 4a40b70..1cba569 100644
+index 8ee0ff4..64b62f8 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -347,7 +347,7 @@ build-shared: do_$(SHLIB_TARGET) link-shared
@@ -25,7 +25,7 @@ index 67af132..a13354f 100644
  		$(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
  			LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
 diff --git a/Makefile.org b/Makefile.org
-index c92806f..864fcc1 100644
+index 5c48c79..6b3cbfa 100644
 --- a/Makefile.org
 +++ b/Makefile.org
 @@ -345,7 +345,7 @@ build-shared: do_$(SHLIB_TARGET) link-shared
@@ -36,4 +36,4 @@ index c92806f..864fcc1 100644
 +			libs="$$libs $(LIBKRB5)"; \
  		fi; \
  		$(CLEARENV) && $(MAKE) -f Makefile.shared -e $(BUILDENV) \
- 			LIBNAME=$$i LIBVERSION=$(SHLIB_MAJOR).$(SHLIB_MINOR) \
+ 			LIBNAME=$$i LIBVERSION=$(SHLIB_SONAMEVER) \
