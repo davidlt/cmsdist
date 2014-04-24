@@ -283,7 +283,6 @@ make %{makeprocesses} profiledbootstrap
 %else
 make %{makeprocesses} bootstrap
 %endif
-make install
 
 %install
 cd %_builddir/gcc-%gccBranch-%gccRevision/obj && make install 
