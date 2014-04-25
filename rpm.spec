@@ -31,6 +31,8 @@ Patch5: rpm-4.11.2-0006-Remove-chroot-checks-and-chdir-calls
 Patch6: rpm-4.11.2-0007-Fix-Darwin-requires-script-Argument-list-too-long
 Patch7: rpm-4.11.2-0008-Fix-Darwin-provides-script
 Patch8: rpm-4.11.2-0009-Do-not-use-PKG_CHECK_MODULES-to-check-lua-availabili
+Patch9: rpm-4.11.2-0010-armhfp-logic
+Patch10: rpm-4.11.2-0011-armhfp
 
 # Defaults here
 %if %ismac
@@ -48,6 +50,8 @@ Provides: Kerberos
 %patch6 -p1
 %patch7 -p1 
 %patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %build
 
