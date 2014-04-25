@@ -38,7 +38,7 @@ case "%{cmsplatf}" in
   slc*)
     RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing \
                    -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions \
-                   -fstack-protector --param=ssp-buffer-size=4"
+                   -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
     ;;
   fc*)
     RPM_OPT_FLAGS="$RPM_OPT_FLAGS -Wa,--noexecstack -DPURIFY"
@@ -46,8 +46,9 @@ case "%{cmsplatf}" in
 esac
 
 case "%{cmsplatf}" in
-  osx*) target=darwin64-x86_64-cc ;;
-  *)    target=linux-generic64 ;;
+  osx*)         target=darwin64-x86_64-cc ;;
+  *_armv7hl_*)  target=linux-armv4 ;;
+  *)            target=linux-generic64 ;;
 esac
 
 case "%{cmsplatf}" in
@@ -61,6 +62,8 @@ case "%{cmsplatf}" in
     cfg_args="--with-krb5-flavor=MIT enable-krb5 fipscanisterbuild"
     ;;
 esac
+
+export RPM_OPT_FLAGS
 
 perl ./Configure ${target} ${cfg_args} enable-seed enable-tlsext enable-rfc3779 no-asm \
                  no-idea no-mdc2 no-rc5 no-ec no-ecdh no-ecdsa shared --prefix=%{i}
@@ -78,12 +81,14 @@ case "%{cmsplatf}" in
   slc*)
     RPM_OPT_FLAGS="-O2 -fPIC -g -pipe -Wall -Wa,--noexecstack -fno-strict-aliasing \
                    -Wp,-DOPENSSL_USE_NEW_FUNCTIONS -Wp,-D_FORTIFY_SOURCE=2 -fexceptions \
-                   -fstack-protector --param=ssp-buffer-size=4"
+                   -fstack-protector --param=ssp-buffer-size=4 -mtune=generic"
     ;;
   fc*)
     RPM_OPT_FLAGS="$RPM_OPT_FLAGS -Wa,--noexecstack -DPURIFY"
     ;;
 esac
+
+export RPM_OPT_FLAGS
 
 make install
 
