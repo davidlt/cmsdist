@@ -164,11 +164,12 @@ make install
 
   # Build Flex
   cd ../flex-%{flexVersion}
-  ./configure --disable-nls --prefix=%{i} \
+  ./configure --disable-nls --prefix=%{i}/tmp/sw \
               --build=%{_build} --host=%{_host} \
               CC="$CC" CXX="$CXX"
   make %{makeprocesses}
   make install
+  hash -r
 
   # Build Bison
   cd ../bison-%{bisonVersion}
@@ -177,6 +178,14 @@ make install
   make %{makeprocesses}
   make install
   hash -r
+
+  # Build Flex
+  cd ../flex-%{flexVersion}
+  ./configure --disable-nls --prefix=%{i} \
+              --build=%{_build} --host=%{_host} \
+              CC="$CC" CXX="$CXX"
+  make %{makeprocesses}
+  make install
 
   # Build elfutils
   cd ../elfutils-%{elfutilsVersion}
