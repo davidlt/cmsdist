@@ -36,7 +36,7 @@ make -C ./nss
 install -d %{i}/include/nss3
 install -d %{i}/lib
 find ./dist/public/nss -name '*.h' -exec install -m 644 {} %{i}/include/nss3 \;
-find ./dist/*.OBJ/lib -name '*.dylib' -o -name '*.so' -exec install -m 755 {} %{i}/lib \;
+find ./dist/*.OBJ/lib \( -name '*.dylib' -o -name '*.so' \) -exec install -m 755 {} %{i}/lib \;
 
 rm -rf %{i}/lib/libsoftokn3*
 rm -rf %{i}/lib/libsql*
