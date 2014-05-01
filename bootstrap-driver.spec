@@ -205,7 +205,8 @@ fc*)
                               glew perl-Digest-MD5 perl-ExtUtils-MakeMaker patch perl-libwww-perl
                               krb5-libs krb5-devel perl-Data-Dumper perl-WWW-Curl texinfo hostname
                               time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
-                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant"
+                              perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
+                              perl-Socket"
   ;;
 esac
 
