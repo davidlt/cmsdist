@@ -5,6 +5,7 @@ Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-
 Patch1: lhapdf-5.8.5-gzio
 Patch2: lhapdf-data-5.8.5-gzio
 Patch3: lhapdf-5.8.5-disable-examples-and-tests
+Patch4: lhapdf-5.8.5-tests-no-srcdir
 
 Requires: zlib python
 BuildRequires: autotools swig
@@ -26,6 +27,7 @@ Requires: gfortran-macosx
 %prep
 %setup -q -n %{n}/%{realversion}
 %patch3 -p2
+%patch4 -p2
 
 touch src/gzio.inc ; touch src/gzio.F ; touch src/ftn_gzio.c 
 
@@ -51,11 +53,7 @@ make -j %{makeprocesses} -f ../compress.mk all
 %build
 # We do everything in install because we need to do it twice.
 %install
-libtoolize --force --copy
-autoupdate
-aclocal -I m4
-autoconf
-automake --add-missing
+autoreconf -fiv
 
 FC="`which gfortran` -fPIC"
 CXX="`which %{cms_cxx}` -fPIC"
