@@ -1,4 +1,4 @@
-### RPM external bison 2.7.1
+### RPM external bison 3.0.2
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 
 BuildRequires: autotools
