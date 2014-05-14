@@ -6,6 +6,7 @@
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
+%define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -18,7 +19,7 @@ Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
 Requires: das-client-toolfile
-Requires: db4-toolfile
+Requires: db6-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
 Requires: evtgenlhc-toolfile
@@ -26,7 +27,9 @@ Requires: expat-toolfile
 Requires: fakesystem
 Requires: fastjet-toolfile
 Requires: gcc-toolfile
+%if %isnotaarch64
 Requires: gccxml-toolfile
+%endif
 Requires: gdbm-toolfile
 Requires: geant4-toolfile
 Requires: geant4data-toolfile
@@ -57,7 +60,9 @@ Requires: photos-toolfile
 Requires: pythia6-toolfile
 Requires: pythia8-toolfile
 Requires: python-toolfile
+%if %isnotaarch64
 Requires: qt-toolfile
+%endif
 Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
@@ -74,10 +79,14 @@ Requires: zlib-toolfile
 Requires: dcap-toolfile
 Requires: frontier_client-toolfile
 Requires: xrootd-toolfile
+%if %isnotaarch64
 Requires: pyqt-toolfile
+%endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
+%if %isnotaarch64
 Requires: valgrind-toolfile
+%endif
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-scipy-toolfile
@@ -134,7 +143,9 @@ Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
+%if %isnotaarch64
 Requires: dmtcp-toolfile
+%endif
 %endif
 
 # Only for Darwin platform.
