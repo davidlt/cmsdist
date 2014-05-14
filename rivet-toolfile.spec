@@ -16,7 +16,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rivet.xml
 <environment name="INCLUDE" default="$RIVET_BASE/include"/>
 </client>
 <runtime name="PATH" value="$RIVET_BASE/bin" type="path"/>
-<runtime name="PYTHONPATH" value="$RIVET_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+<runtime name="PYTHONPATH" value="$RIVET_BASE/lib64/python@PYTHONV@/site-packages" type="path"/>
 <runtime name="RIVET_ANALYSIS_PATH" value="$RIVET_BASE/lib" type="path"/>
 <runtime name="PDFPATH" default="$RIVET_BASE/share" type="path"/>
 </tool>

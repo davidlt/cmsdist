@@ -12,9 +12,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/python.xml
   <lib name="python@PYTHONV@"/>
   <client>
     <environment name="PYTHON_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PYTHON_BASE/lib"/>
+    <environment name="LIBDIR" default="$PYTHON_BASE/lib64"/>
     <environment name="INCLUDE" default="$PYTHON_BASE/include/python@PYTHONV@"/>
-    <environment name="PYTHON_COMPILE" default="$PYTHON_BASE/lib/python@PYTHONV@/compileall.py"/>
+    <environment name="PYTHON_COMPILE" default="$LIBDIR/python@PYTHONV@/compileall.py"/>
   </client>
   <runtime name="PATH" value="$PYTHON_BASE/bin" type="path"/>
   <use name="sockets"/>
