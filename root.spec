@@ -6,13 +6,22 @@
 %define branch cms/v5-34-17
 Source: git+https://github.com/cms-sw/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
+Patch0: root-5.34.17-add-linuxarm64-v2
+Patch1: root-5.34.17-enable-cintex-v2
+
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
+%define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
+%define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 
-Requires: gccxml gsl libjpg libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
+Requires: gsl libjpeg-turbo libpng libtiff pcre python fftw3 xz xrootd libxml2 openssl
+
+%if %isnotaarch64
+Requires: gccxml
+%endif
 
 %if %islinux
 Requires: castor dcap
@@ -30,6 +39,8 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
+%patch0 -p1
+%patch1 -p1
 
 # Delete these (irrelevant) files as the fits appear to confuse rpm on OSX
 # (It tries to run install_name_tool on them.)
@@ -41,7 +52,7 @@ perl -p -i -e 's{/(usr|opt)/local}{/no-no-no/local}g' configure
 %build
 
 mkdir -p %i
-export LIBJPG_ROOT
+export LIBJPG_ROOT=${LIBJPEG_TURBO_ROOT}
 export ROOTSYS=%_builddir/root
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
@@ -64,7 +75,6 @@ CONFIG_ARGS="--enable-table
              --enable-python --with-python-libdir=${PYTHON_ROOT}/lib --with-python-incdir=${PYTHON_ROOT}/include/python${PYTHONV}
              --enable-explicitlink 
              --enable-mathmore
-             --enable-reflex  
              --enable-cintex 
              --enable-minuit2
              --disable-builtin-lzma
@@ -114,6 +124,14 @@ TARGET_PLATF=
 
 %if %isarmv7
   TARGET_PLATF=linuxarm
+%endif
+
+%if %isnotaarch64
+  EXTRA_OPTS="${EXTRA_OPTS} --enable-reflex"
+%endif
+
+%if %isaarch64
+  TARGET_PLATF=linuxarm64
 %endif
 
 ./configure ${TARGET_PLATF} ${CONFIG_ARGS} ${EXTRA_OPTS}
