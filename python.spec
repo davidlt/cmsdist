@@ -1,7 +1,8 @@
 ### RPM external python 2.7.5
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
-## INITENV SETV PYTHON_LIB_SITE_PACKAGES lib64/python%{python_major_version}/site-packages
+## INITENV SETV PYTHON_PLAT_LIB_SITE_PACKAGES lib64/python%{python_major_version}/site-packages
+## INITENV SETV PYTHON_PURE_LIB_SITE_PACKAGES lib/python%{python_major_version}/site-packages
 ## INITENV SETV PYTHONHASHSEED random
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
@@ -12,7 +13,7 @@
 Requires: expat bz2lib db6 gdbm openssl libffi
 
 %if %isnotonline
-Requires: zlib sqlite readline
+Requires: zlib sqlite readline ncurses
 %endif
 
 # FIXME: readline, crypt 
@@ -73,7 +74,7 @@ done
 mkdir -p %{i}/{include,lib64,bin}
 
 %if %isnotonline
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT}
+%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT} ${NCURSES_ROOT}
 %else
 %define extradirs %{nil}
 %endif
@@ -201,7 +202,8 @@ find %{i}/lib64 -type f -name "_tkinter.so" -exec rm {} \;
                    %{i}/lib64/python%{pythonv}/sqlite3/test \
                    %{i}/lib64/python%{pythonv}/bsddb/test \
                    %{i}/lib64/python%{pythonv}/email/test \
-                   %{i}/lib64/python%{pythonv}/lib2to3/tests }
+                   %{i}/lib64/python%{pythonv}/lib2to3/tests \
+                   %{i}/lib64/pkgconfig }
 
 # Remove .pyo files
 find %i -name '*.pyo' -exec rm {} \;
@@ -220,4 +222,5 @@ done
 
 %post
 %{relocateConfig}lib64/python2.7/config/Makefile
+%{relocateConfig}lib64/python2.7/_sysconfigdata.py
 %{relocateConfig}etc/profile.d/dependencies-setup.*sh
