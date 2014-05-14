@@ -76,6 +76,12 @@ case %cmsplatf in
   osx*_*_gcc*) LIBQUADMATH="-lquadmath" ;;
 esac
 
+# Update to get AArch64
+rm -f ./Config/config.{sub,guess}
+curl -L -k -s -o ./Config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./Config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./Config/config.{sub,guess}
+
 ./configure $PLATF_CONF_OPTS \
             --disable-silent-rules \
             --with-LHAPDF=$LHAPDF_ROOT \
