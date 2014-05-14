@@ -1,6 +1,6 @@
-### RPM external sigcpp 2.2.10
+### RPM external sigcpp 2.3.1
 %define majorv %(echo %realversion | cut -d. -f1,2) 
-Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.bz2
+Source: http://ftp.gnome.org/pub/GNOME/sources/libsigc++/%{majorv}/libsigc++-%{realversion}.tar.xz
 
 BuildRequires: autotools
 
@@ -10,6 +10,13 @@ BuildRequires: autotools
 
 %prep
 %setup -q -n libsigc++-%{realversion}
+
+# Update to get AArch64
+rm -f ./build/config.{sub,guess}
+curl -L -k -s -o ./build/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./build/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./build/config.{sub,guess}
+
 ./configure --prefix=%{i} --disable-static CXX="%cms_cxx"
 
 %build
