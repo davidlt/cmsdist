@@ -33,6 +33,7 @@ Patch7: rpm-4.11.2-0008-Fix-Darwin-provides-script
 Patch8: rpm-4.11.2-0009-Do-not-use-PKG_CHECK_MODULES-to-check-lua-availabili
 Patch9: rpm-4.11.2-0010-armhfp-logic
 Patch10: rpm-4.11.2-0011-armhfp
+Patch11: rpm-4.11.2-0012-improve-requires-interpreter-check
 
 # Defaults here
 %if %ismac
@@ -52,6 +53,7 @@ Provides: Kerberos
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1
+%patch11 -p1
 
 %build
 
