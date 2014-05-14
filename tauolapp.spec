@@ -13,9 +13,6 @@ Requires: lhapdf
 %endif
 
 %define keep_archives true
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
 
 %prep
 %setup -q -n tauola++/%{realversion}
@@ -25,11 +22,11 @@ export HEPMCVERSION=${HEPMC_VERSION}
 export LHAPDF_LOCATION=${LHAPDF_ROOT}
 export PYTHIA8_LOCATION=${PYTHIA8_ROOT}
 
-case %cmsplatf in 
-  osx*)
-#%patch0 -p2
-  ;;
-esac
+# Update for AArch64 support
+rm -f ./config/config.{sub,guess}
+curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config/config.{sub,guess}
 
 ./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
 # One more fix-up for OSX (in addition to the patch above)
