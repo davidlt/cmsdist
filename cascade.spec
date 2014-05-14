@@ -34,6 +34,13 @@ case %cmsplatf in
     LIBS='-lstdc++ -lz'
   ;;
 esac
+
+# Update to get AArch64
+rm -f ./config.{sub,guess}
+curl -L -k -s -o ./config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config.{sub,guess}
+
 ./configure $PLATF_CONFIG_OPTS --with-pythia6=$PYTHIA  --with-lhapdf=$LHAPDF --prefix=%i F77="$F77" LIBS="$LIBS" 
 %build
 make %makeprocesses
