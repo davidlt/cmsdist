@@ -32,6 +32,12 @@ Requires: onlinesystemtools
 %patch3 -p1
 
 %build
+# Update to get AArch64
+rm -f ./cfg/config.{sub,guess}
+curl -L -k -s -o ./cfg/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./cfg/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./cfg/config.{sub,guess}
+
 ./configure --prefix=%i                         \
   --with-zlib-includes=$ZLIB_ROOT/include       \
   --with-zlib-libraries=$ZLIB_ROOT/lib          \
