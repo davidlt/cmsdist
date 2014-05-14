@@ -1,7 +1,7 @@
-### RPM external py2-numpy 1.6.1
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+### RPM external py2-numpy 1.8.1
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_PLAT_LIB_SITE_PACKAGES}
 Source: http://downloads.sourceforge.net/project/numpy/NumPy/%{realversion}/numpy-%{realversion}.tar.gz
-Patch0: py2-numpy-%{realversion}-fix-macosx-build
+Patch0: py2-numpy-1.6.1-fix-macosx-build
 
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
