@@ -2,7 +2,7 @@
 Source: http://download.osgeo.org/libtiff/tiff-%{realversion}.zip
 %define online %(case %cmsplatf in (*onl_*_*) echo true;; (*) echo false;; esac)
 
-Requires: libjpg
+Requires: libjpeg-turbo
 %if "%online" != "true"
 Requires: zlib
 %endif
@@ -27,8 +27,8 @@ chmod +x ./config/config.{sub,guess}
 ./configure --prefix=%{i} --disable-static \
             --with-zlib-lib-dir=$ZLIB_ROOT/lib \
             --with-zlib-include-dir=$ZLIB_ROOT/include \
-            --with-jpeg-lib-dir=$LIBJPG_ROOT/lib \
-            --with-jpeg-include-dir=$LIBJPG_ROOT/include \
+            --with-jpeg-lib-dir=$LIBJPEG_TURBO_ROOT/lib \
+            --with-jpeg-include-dir=$LIBJPEG_TURBO_ROOT/include \
             --disable-dependency-tracking \
             CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
                           
