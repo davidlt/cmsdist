@@ -1,6 +1,6 @@
 ### RPM external curl 7.36.0
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
-Requires: nss
+Requires: openssl
 Requires: zlib
    
 %prep
@@ -21,8 +21,8 @@ esac
   --without-libidn \
   --disable-ldap \
   --with-zlib=${ZLIB_ROOT} \
-  --without-ssl \
-  --with-nss=${NSS_ROOT} \
+  --with-ssl=${OPENSSL_ROOT} \
+  --without-nss \
   --with-gssapi=${KERBEROS_ROOT} \
   CPPFLAGS="-I${NSPR_ROOT}/include/nspr -I${NSS_ROOT}/include/nss3" \
   LDFLAGS="-L${NSPR_ROOT}/lib -L${NSS_ROOT}/lib"
