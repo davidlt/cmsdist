@@ -1,4 +1,4 @@
-### RPM external flex 2.5.37
+### RPM external flex 2.5.39
 Source: http://switch.dl.sourceforge.net/project/%{n}/%{n}-%{realversion}.tar.bz2
 
 BuildRequires: autotools
