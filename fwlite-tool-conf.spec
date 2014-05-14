@@ -12,7 +12,7 @@ Requires: boost-toolfile
 Requires: bz2lib-toolfile
 Requires: castor-toolfile
 Requires: clhep-toolfile
-Requires: db4-toolfile
+Requires: db6-toolfile
 Requires: dcap-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
