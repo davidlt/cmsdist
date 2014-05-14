@@ -30,8 +30,7 @@ case %cmsos in
 esac
 
 pushd tools/build/v2
-
-sh bootstrap.sh $TOOLSET
+  ./bootstrap.sh --with-toolset=$TOOLSET
 popd
 
 PV="PYTHON_VERSION=$(echo $PYTHON_VERSION | sed 's/\.[0-9]*-.*$//')"
@@ -48,7 +47,13 @@ then
   ZLIBI="ZLIB_INCLUDE=$ZLIB_ROOT/include"
 fi
 
-tools/build/v2/bjam %makeprocesses cxxflags="%{cms_cxxflags}" -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI ${ZLIBR+-s$ZLIBR} ${ZLIBI+-s$ZLIBI} toolset=$TOOLSET stage
+case "%{cmsplatf}" in
+  *_aarch64_*)
+    BUILD_OPTS="--without-context"
+    ;;
+esac
+
+tools/build/v2/bjam %makeprocesses cxxflags="%{cms_cxxflags}" ${BUILD_OPTS} -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI ${ZLIBR+-s$ZLIBR} ${ZLIBI+-s$ZLIBI} toolset=$TOOLSET stage
 
 %install
 case %cmsos in osx*) so=dylib ;; *) so=so ;; esac
