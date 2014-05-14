@@ -1,5 +1,5 @@
 ### RPM external py2-matplotlib 1.2.1
-## INITENV +PATH PYTHONPATH %{i}/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_PLAT_LIB_SITE_PACKAGES}
 %define realname matplotlib
 Source: https://downloads.sourceforge.net/project/%{realname}/%{realname}/%{realname}-%{realversion}/%{realname}-%{realversion}.tar.gz
 Requires: py2-pytz py2-numpy py2-python-dateutil zlib libpng freetype
@@ -44,4 +44,4 @@ python setup.py install --prefix=%i
 find %i -name '*.egg-info' -exec rm {} \;
 
 # No need for test files
-rm -rf %i/$PYTHON_LIB_SITE_PACKAGES/matplotlib/tests
+rm -rf %{i}/${PYTHON_PLAT_LIB_SITE_PACKAGES}/matplotlib/tests

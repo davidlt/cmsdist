@@ -1,5 +1,5 @@
 ### RPM external py2-scipy 0.8.0
-## INITENV +PATH PYTHONPATH %i/lib/python$(echo $PYTHON_VERSION | cut -d. -f 1,2)/site-packages
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_PLAT_LIB_SITE_PACKAGES}
 %define downloadn scipy
 Source: http://switch.dl.sourceforge.net/sourceforge/%downloadn/%downloadn-%{realversion}.tar.gz
 Patch0: py2-scipy-0.8.0-fix-python27-build-rev-6645

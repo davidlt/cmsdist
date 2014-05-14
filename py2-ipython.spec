@@ -1,5 +1,5 @@
 ### RPM external py2-ipython 0.10
-## INITENV +PATH PYTHONPATH %{i}/${PYTHON_LIB_SITE_PACKAGES}
+## INITENV +PATH PYTHONPATH %{i}/${PYTHON_PLAT_LIB_SITE_PACKAGES}
 %define realname %(echo "%{n}" | cut -d- -f 2-)
 Source: http://archive.ipython.org/release/%{realversion}/%{realname}-%{realversion}.tar.gz
 Requires: python
