@@ -7,8 +7,15 @@ Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
 Patch6: coral-CORAL_2_3_21-forever-ttl
 
+%if %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac) == 1
+%define cmsplatf_armv7 1
+%endif
+
+%if %(case %{cmsplatf} in (*aarch64*) echo 1 ;; (*) echo 0 ;; esac) == 1
+%define cmsplatf_aarch64 1
+%endif
+
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
-%define isarmv7 %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define cvssrc          %{n}
@@ -35,7 +42,7 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 
 # Drop Oracle interface on ARM machines. 
 # Oracle does not provide Instant Client for ARMv7/v8.
-%if %isarmv7
+%if 0%{?cmsplatf_armv7}%{cmsplatf_aarch64}
 %define patchsrc8       rm -rf ./src/OracleAccess
 %endif
 
