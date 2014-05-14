@@ -11,10 +11,6 @@ Requires: pythia6
 Requires: photos
 %define keep_archives true
 
-%if "%(case %cmsplatf in (osx*_*_gcc421) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: gfortran-macosx
-%endif
-
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
 %endif
