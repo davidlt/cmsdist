@@ -121,6 +121,9 @@ case %cmsplatf in
   *_armv7hl_*)
     export ARCH_LIB64DIR="lib"
   ;;
+  *_aarch64_*)
+    export ARCH_LIB64DIR="lib64"
+  ;;
   *) 
     echo "Unsupported."
     exit 1
@@ -152,12 +155,12 @@ esac
 
 
 case %cmsplatf in
-   *_amd64_gcc4[56789]* )
-     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
-   ;;
-   *_armv7hl_* )
+  *_amd64_gcc4[56789]*)
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
+    ;;
+  *_armv7hl_*|*_aarch64_*)
     COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
-   ;;
+    ;;
 esac
 
 case %cmsplatf in
