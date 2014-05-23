@@ -91,7 +91,7 @@ echo $dirs
 LDFLAGS=""
 CPPFLAGS=""
 for d in $dirs; do
-  LDFLAGS="$LDFLAGS -L$d/lib"
+  LDFLAGS="$LDFLAGS -L$d/lib -L$d/lib64"
   CPPFLAGS="$CPPFLAGS -I$d/include"
 done
 export LDFLAGS
