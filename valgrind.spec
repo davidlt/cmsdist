@@ -1,8 +1,8 @@
-### RPM external valgrind 3.9.0
+### RPM external valgrind 3.9.0-13961
 ## INITENV SET VALGRIND_LIB %{i}/lib/valgrind
 %define rev %(echo %{realversion} | cut -d- -f2)
-#Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
-Source: http://valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
+Source: svn://svn.valgrind.org/valgrind/trunk?revision=%{rev}&module=%{n}-%{realversion}&output=/%{n}-%{realversion}.tar.gz
+#Source: http://valgrind.org/downloads/%{n}-%{realversion}.tar.bz2
 Patch1: valgrind-3.9.0-change-FN_NAME_LEN-global-buffer-size
 Patch2: valgrind-3.9.0-change-VG_MAX_SEGNAMELEN
 
@@ -18,7 +18,7 @@ case %{cmsplatf} in
   osx*) 
     CFLAGS="-D__private_extern__=extern" 
     ;;
-  *_amd64_*)
+  *_amd64_*|*_aarch64_*)
     CONF_OPTS="--enable-only64bit"
     ;;
 esac

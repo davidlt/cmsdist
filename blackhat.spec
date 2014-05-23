@@ -3,6 +3,7 @@ Source: http://www.hepforge.org/archive/blackhat/blackhat-%{realversion}.tar.gz
 
 Patch0: blackhat-gcc48
 Patch1: blackhat-0.9.9-armv7hl
+Patch2: blackhat-no_warnings
 
 Requires: qd python openssl
 %prep
@@ -10,6 +11,7 @@ Requires: qd python openssl
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # Update to get AArch64
 rm -f ./config.{sub,guess}

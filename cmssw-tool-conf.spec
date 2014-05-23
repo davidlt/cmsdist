@@ -84,9 +84,7 @@ Requires: pyqt-toolfile
 %endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
-%if %isnotaarch64
 Requires: valgrind-toolfile
-%endif
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-scipy-toolfile
@@ -134,7 +132,7 @@ Requires: opencl-toolfile
 Requires: opencl-cpp-toolfile
 Requires: qd-toolfile
 Requires: blackhat-toolfile
-Requires: sherpa2-toolfile
+Requires: sherpa-toolfile
 Requires: geant4-parfullcms-toolfile
 
 # Only for Linux platform.
@@ -165,7 +163,7 @@ Requires: igprof-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler boost_serialization boost_iostreams cuda rivet2 opencl opencl-cpp sherpa2
+%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp
 
 ## IMPORT scramv1-tool-conf
 
