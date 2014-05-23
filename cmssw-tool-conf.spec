@@ -84,9 +84,7 @@ Requires: pyqt-toolfile
 %endif
 Requires: sip-toolfile
 Requires: graphviz-toolfile
-%if %isnotaarch64
 Requires: valgrind-toolfile
-%endif
 Requires: py2-matplotlib-toolfile
 Requires: py2-numpy-toolfile
 Requires: py2-scipy-toolfile
