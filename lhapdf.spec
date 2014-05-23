@@ -2,7 +2,7 @@
 
 %define realversion %(echo %{v} | cut -d- -f1)
 Source: http://cern.ch/service-spi/external/MCGenerators/distribution/%{n}/%{n}-%{realversion}-src.tgz
-Patch0: lhapdf-5.8.5-disable-examples-and-tests
+Patch0: lhapdf-5.9.0-disable-examples-and-tests
 Patch1: lhapdf-5.8.5-tests-no-srcdir
 
 Source1: lhapdf_makeLinks
