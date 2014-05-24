@@ -53,7 +53,21 @@ case "%{cmsplatf}" in
     ;;
 esac
 
-tools/build/v2/bjam %makeprocesses cxxflags="%{cms_cxxflags}" ${BUILD_OPTS} -s$PR -s$PV -s$BZ2LIBR -s$BZ2LIBI ${ZLIBR+-s$ZLIBR} ${ZLIBI+-s$ZLIBI} toolset=$TOOLSET stage
+tools/build/v2/bjam \
+  %makeprocesses \
+  cxxflags="%{cms_cxxflags}" \
+  ${BUILD_OPTS} \
+  --disable-icu \
+  boost.locale.icu=off \
+  boost.locale.iconv=on \
+  -s$PR \
+  -s$PV \
+  -s$BZ2LIBR \
+  -s$BZ2LIBI \
+  ${ZLIBR+-s$ZLIBR} \
+  ${ZLIBI+-s$ZLIBI} \
+  toolset=$TOOLSET \
+  stage
 
 %install
 case %cmsos in osx*) so=dylib ;; *) so=so ;; esac

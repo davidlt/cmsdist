@@ -1,0 +1,125 @@
+diff --git a/cint/reflex/python/genreflex/genreflex.py b/cint/reflex/python/genreflex/genreflex.py
+index c0d03c1..729ed60 100644
+--- a/cint/reflex/python/genreflex/genreflex.py
++++ b/cint/reflex/python/genreflex/genreflex.py
+@@ -7,7 +7,7 @@
+ # This software is provided "as is" without express or implied warranty.
+ 
+ import sys, os, gendict, selclass, gencapa, genrootmap, string, getopt, subprocess
+-import re
++import re, json, zipfile, shutil
+ 
+ class genreflex:
+ #----------------------------------------------------------------------------------
+@@ -225,28 +225,30 @@ class genreflex:
+         self.usage()
+       for l in open(self.select).readlines() : classes.append(l[:-1])
+     #----------GCCXML command------------------------------
+-    self.gccxml = ''
+-    if not self.gccxmlpath:
+-      try:
+-        import gccxmlpath
+-        self.gccxmlpath = gccxmlpath.gccxmlpath
+-      except:
+-        pass
+-    if self.gccxmlpath :
+-      if sys.platform == 'win32' :
+-        self.gccxml = self.gccxmlpath + os.sep + 'gccxml.exe'
+-      else :
+-        self.gccxml = self.gccxmlpath + os.sep + 'gccxml'
+-      if not os.path.isfile(self.gccxml) :
+-        print '--->> genreflex: ERROR: Path to gccxml given, but no executable found at', self.gccxml
+-        self.gccxml = ''
+-    if len(self.gccxml) == 0 :
+-      if self.which('gccxml') :
+-        self.gccxml = 'gccxml'
+-        print '--->> genreflex: INFO: Using gccxml from', self.which('gccxml')
+-      else :
+-        print '--->> genreflex: ERROR: Cannot find gccxml executable, aborting!'
+-        sys.exit(1)
++    if 'CMSSW_DICTDB_PATH' not in os.environ:
++    # Do not check for GCCXML if CMSSW_DICTDB_PATH exist in environment
++      self.gccxml = ''
++      if not self.gccxmlpath:
++        try:
++          import gccxmlpath
++          self.gccxmlpath = gccxmlpath.gccxmlpath
++        except:
++          pass
++      if self.gccxmlpath :
++        if sys.platform == 'win32' :
++          self.gccxml = self.gccxmlpath + os.sep + 'gccxml.exe'
++        else :
++          self.gccxml = self.gccxmlpath + os.sep + 'gccxml'
++        if not os.path.isfile(self.gccxml) :
++          print '--->> genreflex: ERROR: Path to gccxml given, but no executable found at', self.gccxml
++          self.gccxml = ''
++      if len(self.gccxml) == 0 :
++        if self.which('gccxml') :
++          self.gccxml = 'gccxml'
++          print '--->> genreflex: INFO: Using gccxml from', self.which('gccxml')
++        else :
++          print '--->> genreflex: ERROR: Cannot find gccxml executable, aborting!'
++          sys.exit(1)
+     #---------------Open selection file-------------------
+     try :
+       if self.select : self.selector = selclass.selClass(self.select,parse=1)
+@@ -311,6 +313,49 @@ class genreflex:
+     s += '\nCompiler info:\n' + out.read()
+     return s
+ #----------------------------------------------------------------------------------
++  def process_files_cache(self):
++    if 'CMSSW_DICTDB_PATH' not in os.environ:
++      print '--->> genreflex: ERROR: cannot find environment variable, CMSSW_DICTDB_PATH.'
++      sys.exit(1)
++    dictdb_path = os.environ['CMSSW_DICTDB_PATH']
++    if not os.path.isfile(dictdb_path):
++      print '--->> genreflex: ERROR: CMSSW_DICTDB_PATH does not point to the zip package.'
++      sys.exit(1)
++    print '--->> genreflex: INFO: Using cache from %s' % dictdb_path
++    with zipfile.ZipFile(dictdb_path) as zf:
++      # Read database from package
++      with zf.open('db.json') as dictdb_file:
++        dictdb = json.load(dictdb_file)
++
++      # Check if required files are in the database
++      for file in self.files:
++        if not file in dictdb:
++          print '---> genreflex: ERROR: cannot find %s in cache database.' % file
++          sys.exit(1)
++
++        rec = dictdb[file]
++        # Generated dictionary and capabilites file
++        cache_files = [rec[1], rec[2]]
++
++        # Expand required files
++        for cfile in cache_files:
++          # Check if the file exist in package itself
++          if not cfile in [_.filename for _ in zf.infolist()]:
++            print '--->> genreflex: ERROR: cannot find file (%s) content in cache database.' % file
++            sys.exit(1)
++
++          print '--->> genreflex: INFO: pulling %s from cache to %s directory.' % (cfile, self.outputDir)
++          # If dictionary we need to match the name
++          if cfile.endswith('xr.cc'):
++            new_file = '/'.join([self.outputDir, self.outputFile])
++            with open(new_file, 'wb') as out_file:
++              shutil.copyfileobj(zf.open(cfile), out_file)
++          else:
++            # Capabilities file (*xi.c) just extract
++            zf.extract(cfile, '/'.join(self.outputDir.split('/')[0:2]))
++    sys.exit(0)
++
++#----------------------------------------------------------------------------------
+   def process_files(self):
+     total_errors = 0
+     total_warnings = 0
+@@ -422,4 +467,7 @@ if __name__ == "__main__":
+   l = genreflex()
+   l.parse_args()
+   l.check_files_dirs()
+-  l.process_files()
++  if 'CMSSW_DICTDB_PATH' not in os.environ:
++    l.process_files()
++  else:
++    l.process_files_cache()
