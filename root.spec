@@ -8,6 +8,7 @@ Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export
 
 Patch0: root-5.34.17-add-linuxarm64-v2
 Patch1: root-5.34.17-enable-cintex-v2
+Patch2: root-5.34.17-genreflex-CMSSW_DICTDB_PATH
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
