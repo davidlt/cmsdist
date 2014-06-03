@@ -39,6 +39,12 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootcint.xml
 </tool>
 EOF_TOOLFILE
 
+cat << \EOF_TOOLFILE > %{i}/etc/scram.d/root_dictcache.xml
+<tool name="root_dictcache" version="@TOOL_VERSION@">
+  <runtime name="CMSSW_DICTDB_PATH" value="/home/david.abdurachmanov/new-arch/dictdb/allditcs.zip" type="path"/>
+</tool>
+EOF_TOOLFILE
+
 # rootrint toolfile
 cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrint.xml
 <tool name="rootrint" version="@TOOL_VERSION@">
@@ -225,6 +231,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/rootrflx.xml
   <runtime name="GENREFLEX" value="$ROOTRFLX_BASE/bin/genreflex"/>
   <use name="gccxml"/>
   <use name="root_interface"/>
+  <use name="root_dictcache"/>
 </tool>
 EOF_TOOLFILE
 
