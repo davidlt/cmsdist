@@ -32,7 +32,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 %if %islinux
 %define bisonVersion 3.0.2
 %define binutilsVersion 2.24
-%define elfutilsVersion 0.158
+%define elfutilsVersion 0.159
 %define m4Version 1.4.17
 %define flexVersion 2.5.39
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
