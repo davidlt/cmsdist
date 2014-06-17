@@ -1,4 +1,4 @@
-### RPM external python 2.7.5
+### RPM external python 2.7.6
 ## INITENV +PATH PATH %{i}/bin
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV SETV PYTHON_PLAT_LIB_SITE_PACKAGES lib64/python%{python_major_version}/site-packages
@@ -7,47 +7,35 @@
 # OS X patches and build fudging stolen from fink
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 
-%define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
-%define isnotonline %(case %{cmsplatf} in (*onl_*_*) echo 0 ;; (*) echo 1 ;; esac)
-
-Requires: expat bz2lib db6 gdbm openssl libffi
-
-%if %isnotonline
-Requires: zlib sqlite readline ncurses
-%endif
+Requires: expat bz2lib db6 gdbm openssl
+Requires: zlib sqlite readline ncurses libffi
 
 # FIXME: readline, crypt 
 # FIXME: gmp, panel, tk/tcl, x11
+%define tag 75d55971dbfa8a23c15cd0900c03655c692be767
+%define branch cms/v%realversion
+%define github_user cms-externals
+Source: git+https://github.com/%github_user/cpython.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Source0: http://www.python.org/ftp/%n/%realversion/Python-%realversion.tgz
-Patch1: python-fix-macosx-relocation
-Patch2: python-2.7.3-fix-pyport
-Patch3: python-2.7.3-ssl-fragment
-Patch4: python-2.7.5-lib64-fix-for-test_install
-Patch5: python-2.7.5-lib64-sysconfig
-Patch6: python-2.7.5-lib64
-Patch7: python-2.7.5-dont-detect-dbm
-Patch8: python-2.7.5-fix-libffi-paths
+Patch0: python-2.7.5-lib64-fix-for-test_install
+Patch1: python-2.7.5-lib64-sysconfig
+Patch2: python-2.7.6-lib64
+Patch3: python-2.7.6-dont-detect-dbm
+Patch4: python-2.7.5-fix-libffi-paths
 
 %prep
-%setup -n Python-%realversion
+%setup -n python-%realversion
 find . -type f | while read f; do
   if head -n1 $f | grep -q /usr/local; then
     perl -p -i -e "s|#!.*/usr/local/bin/python|#!/usr/bin/env python|" $f
   else :; fi
 done
-%patch1 -p0
 
-%if %isdarwin
+%patch0 -p1
+%patch1 -p1
 %patch2 -p1
-%endif
-
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
 
 rm -rf Modules/expat || exit 1
 rm -rf Modules/zlib || exit 1
@@ -73,13 +61,7 @@ done
 #mkdir -p %i/include %i/lib
 mkdir -p %{i}/{include,lib64,bin}
 
-%if %isnotonline
-%define extradirs ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT} ${NCURSES_ROOT}
-%else
-%define extradirs %{nil}
-%endif
-
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} %{extradirs}"
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
@@ -92,8 +74,11 @@ LDFLAGS=""
 CPPFLAGS=""
 for d in $dirs; do
   LDFLAGS="$LDFLAGS -L$d/lib -L$d/lib64"
+done
+for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
   CPPFLAGS="$CPPFLAGS -I$d/include"
 done
+LDFLAGS="$LDFLAGS $NCURSES_ROOT/lib/libncurses.a $READLINE_ROOT/lib/libreadline.a"
 export LDFLAGS
 export CPPFLAGS
 

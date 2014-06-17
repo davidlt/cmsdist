@@ -1,17 +1,17 @@
 diff --git a/setup.py b/setup.py
-index 88c2d3a..3cc4afe 100644
+index e84b7d2..4cabc9e 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -707,7 +707,7 @@ class PyBuildExt(build_ext):
+@@ -883,7 +883,7 @@ class PyBuildExt(build_ext):
  
-         max_db_ver = (4, 7)
-         min_db_ver = (3, 3)
+         max_db_ver = (5, 3)
+         min_db_ver = (4, 3)
 -        db_setup_debug = False   # verbose debug prints from this script?
-+        db_setup_debug = True # verbose debug prints from this script?
++        db_setup_debug = True   # verbose debug prints from this script?
  
          def allow_db_ver(db_ver):
              """Returns a boolean if the given BerkeleyDB version is acceptable.
-@@ -738,62 +738,13 @@ class PyBuildExt(build_ext):
+@@ -918,58 +918,6 @@ class PyBuildExt(build_ext):
              else:
                  raise ValueError("unknown major BerkeleyDB version", major)
  
@@ -46,6 +46,9 @@ index 88c2d3a..3cc4afe 100644
 -            db_inc_paths.append('/pkg/db-3.%d/include' % x)
 -            db_inc_paths.append('/opt/db-3.%d/include' % x)
 -
+-        if cross_compiling:
+-            db_inc_paths = []
+-
 -        # Add some common subdirectories for Sleepycat DB to the list,
 -        # based on the standard include directories. This way DB3/4 gets
 -        # picked up when it is installed in a non-standard prefix and
@@ -66,21 +69,13 @@ index 88c2d3a..3cc4afe 100644
 -
          db_ver_inc_map = {}
  
-         class db_found(Exception): pass
+         if host_platform == 'darwin':
+@@ -979,7 +927,7 @@ class PyBuildExt(build_ext):
          try:
              # See whether there is a Sleepycat header in the standard
              # search path.
--            for d in inc_dirs + db_inc_paths:
-+            for d in [os.environ["DB4_ROOT"]]:
+-            for d in ["%s/include" % os.environ["DB4_ROOT"]]:
++            for d in ["%s/include" % (os.environ[_],) for _ in ["DB4_ROOT", "DB6_ROOT"] if _ in os.environ]:
                  f = os.path.join(d, "db.h")
-                 if db_setup_debug: print "db: looking for db.h in", f
-                 if os.path.exists(f):
-@@ -884,7 +835,7 @@ class PyBuildExt(build_ext):
-             missing.append('_bsddb')
  
-         # The sqlite interface
--        sqlite_setup_debug = False   # verbose debug prints from this script?
-+        sqlite_setup_debug = True   # verbose debug prints from this script?
- 
-         # We hunt for #define SQLITE_VERSION "n.n.n"
-         # We need to find >= sqlite version 3.0.8
+                 if host_platform == 'darwin' and is_macosx_sdk_path(d):

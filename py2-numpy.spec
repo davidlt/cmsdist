@@ -24,6 +24,7 @@ esac
 export LAPACK_ROOT
 export LAPACK=$LAPACK_ROOT/lib/liblapack.$SONAME
 export BLAS=$LAPACK_ROOT/lib/libblas.$SONAME
+export ATLAS=None
 
 python setup.py build --fcompiler=gnu95
 python setup.py install --prefix=%{i}
