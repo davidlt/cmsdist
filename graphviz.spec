@@ -36,6 +36,7 @@ esac
   --without-pangocairo \
   --without-fontconfig \
   --without-gdk-pixbuf \
+  --with-libgd=no \
   --disable-sharp \
   --disable-guile \
   --disable-java \
