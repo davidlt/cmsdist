@@ -2,6 +2,7 @@
 # FIXME: support building all platforms together like scram does?
 # FIXME: automatic sub-packages for "doc" etc?
 ## NOCOMPILER
+%define mic %(case %cmsplatf in (*_mic_*) echo true;; (*) echo false;; esac)
 %define cmssw_libs biglib/%{cmsplatf} lib/%{cmsplatf}
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -35,6 +36,14 @@ Requires: file
 %define cvstag          %realversion
 %endif
 
+%if "%{?scram_compiler:set}" != "set"
+%if "%mic" == "true"
+%define scram_compiler          icc
+%else
+%define scram_compiler          gcc
+%endif
+%endif
+
 %if "%{?usercxxflags:set}" == "set"
 %define extraOptions USER_CXXFLAGS='"%{usercxxflags}"'
 %else
@@ -49,7 +58,7 @@ Requires: file
 %endif
 
 %if "%{?configtag:set}" != "set"
-%define configtag       V05-03-14
+%define configtag       V05-03-15
 %endif
 
 %if "%{?useCmsTC:set}" != "set"
@@ -134,7 +143,7 @@ cd ..; mv cmssw-config-%(echo %{configtag} | sed 's/^.//') config
 
 cd %_builddir
 echo %{configtag} > %_builddir/config/config_tag
-%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf \
+%_builddir/config/updateConfig.pl -p %{ucprojtype} -v %v -s $SCRAMV1_VERSION -t ${%{toolconf}} -a %cmsplatf --keys SCRAM_COMPILER=%{scram_compiler} \
 %if "%{?gitcommit:set}" == "set"
   --keys PROJECT_GIT_HASH=%{gitcommit}
 %else
@@ -165,6 +174,9 @@ grep -r -l -e "^#!.*perl.*" %{i}/%{srctree} | xargs perl -p -i -e "s|^#!.*perl(.
 
 %scramcmd arch
 cd %i/%{srctree}
+%if "%{?extra_tools:set}" == "set"
+for t in %{extra_tools}; do %scramcmd setup $t; done
+%endif
 %{?buildarch:%buildarch}
 
 export BUILD_LOG=yes
@@ -213,9 +225,11 @@ export SCRAM_NOSYMCHECK=true
 LOG_WEB_DIR=%cmsroot/WEB/build-logs/%{cmsplatf}/%{v}
 rm -rf ${LOG_WEB_DIR}
 mkdir -p ${LOG_WEB_DIR}/logs/src
-pushd %{i}/tmp/%{cmsplatf}/cache/log/src
-  tar czf ${LOG_WEB_DIR}/logs/src/src-logs.tgz ./
-popd
+if [ -d %{i}/tmp/%{cmsplatf}/cache/log/src ]; then
+  pushd %{i}/tmp/%{cmsplatf}/cache/log/src
+    tar czf ${LOG_WEB_DIR}/logs/src/src-logs.tgz ./
+  popd
+fi
 
 # split the debug symbols out of tha main binaries, into separate files
 %if "%{?subpackageDebug:set}" == "set"
