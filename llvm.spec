@@ -40,7 +40,9 @@ case "%{cmsplatf}" in
 esac
 
 mkdir objs ; cd objs
-../configure --prefix=%i --enable-optimized ${CONF_OPTS}
+../configure --prefix=%i --enable-optimized ${CONF_OPTS} \
+             --disable-terminfo --enable-bindings=none \
+             CC="gcc" CXX="g++" CPP="gcc -E" CXXCPP="g++ -E"
 make %makeprocesses
 
 %install
