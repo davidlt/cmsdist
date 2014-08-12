@@ -10,6 +10,7 @@ Source: http://downloads.sourceforge.net/project/gnuplot/gnuplot/%{realversion}/
   --disable-wxt \
   --without-cairo \
   --without-tutorial \
+  --without-readline \
   --without-gd \
   --without-x
 

@@ -2,6 +2,7 @@
 Source: https://sqlite.org/2014/sqlite-autoconf-3080403.tar.gz
 
 BuildRequires: autotools
+Requires: readline ncurses
 
 %prep
 %setup -n sqlite-autoconf-3080403
@@ -9,7 +10,9 @@ BuildRequires: autotools
 %build
 
 ./configure --build="%{_build}" --host="%{_host}" --prefix=%{i} \
-            --disable-static --disable-dependency-tracking
+            --disable-static --disable-dependency-tracking \
+            CPPFLAGS="-I${READLINE_ROOT}/include -I${NCURSES_ROOT}/include" \
+            CFLAGS="-L${READLINE_ROOT}/lib -L${NCURSES_ROOT}/lib"
 make %{makeprocesses}
 
 %install

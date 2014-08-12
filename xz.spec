@@ -27,7 +27,7 @@ curl -L -k -s -o ./build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p
 chmod +x ./build-aux/config.{sub,guess}
 
 ./autogen.sh
-./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static
+./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static --disable-nls --disable-rpath --disable-dependency-tracking --disable-doc
 make %{makeprocesses}
 
 %install
