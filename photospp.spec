@@ -17,10 +17,11 @@ Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distrib
 %prep
 %setup -q -n photos++/%{realversion}
 
-case %cmsplatf in
-  osx*)
-  ;;
-esac
+# Update for AArch64 support
+rm -f ./config/config.{sub,guess}
+curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
+curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+chmod +x ./config/config.{sub,guess}
 
 export HEPMCLOCATION=${HEPMC_ROOT}
 export HEPMCVERSION=${HEPMC_VERSION}
