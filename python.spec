@@ -22,6 +22,8 @@ Patch1: python-2.7.5-lib64-sysconfig
 Patch2: python-2.7.6-lib64
 Patch3: python-2.7.6-dont-detect-dbm
 Patch4: python-2.7.5-fix-libffi-paths
+Patch5: python-2.7.6-misc-fixes
+Patch6: python-2.7.6-readline63-fix
 
 %prep
 %setup -n python-%realversion
@@ -36,6 +38,8 @@ done
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 rm -rf Modules/expat || exit 1
 rm -rf Modules/zlib || exit 1
@@ -61,12 +65,14 @@ done
 #mkdir -p %i/include %i/lib
 mkdir -p %{i}/{include,lib64,bin}
 
-dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB4_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT}"
+dirs="${EXPAT_ROOT} ${BZ2LIB_ROOT} ${DB6_ROOT} ${GDBM_ROOT} ${OPENSSL_ROOT} ${LIBFFI_ROOT} ${ZLIB_ROOT} ${SQLITE_ROOT} ${READLINE_ROOT} ${NCURSES_ROOT}"
 
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
-export DB4_ROOT
+export DB6_ROOT
 export LIBFFI_ROOT
+export READLINE_ROOT
+export NCURSES_ROOT
 
 # Python's configure parses LDFLAGS and CPPFLAGS to look for aditional library and include directories
 echo $dirs
@@ -78,7 +84,6 @@ done
 for d in $dirs $READLINE_ROOT $NCURSES_ROOT; do
   CPPFLAGS="$CPPFLAGS -I$d/include"
 done
-LDFLAGS="$LDFLAGS $NCURSES_ROOT/lib/libncurses.a $READLINE_ROOT/lib/libreadline.a"
 export LDFLAGS
 export CPPFLAGS
 
@@ -133,8 +138,11 @@ make %makeprocesses
 %install
 # We need to export it because setup.py now uses it to determine the actual
 # location of DB4, this was needed to avoid having it picked up from the system.
-export DB4_ROOT
+export DB6_ROOT
 export LIBFFI_ROOT
+export READLINE_ROOT
+export NCURSES_ROOT
+
 make install
 %define pythonv %(echo %realversion | cut -d. -f 1,2)
 
