@@ -1,15 +1,22 @@
 ### RPM external gdb 7.7.1
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
 Patch0: gdb-7.6-fix-pythonhome
+Patch1: gdb-7.7.1-tgetent-in-ncurses
 Requires: python ncurses zlib xz expat
+BuildRequires: autotools
 
 %prep
 %setup -n %n-%realversion
 %patch0 -p1
-
+%patch1 -p1
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
+
+pushd gdb
+  autoreconf -fiv
+popd
+
 ./configure --prefix=%{i} \
             --disable-rpath \
             --with-system-gdbinit=%{i}/share/gdbinit \
