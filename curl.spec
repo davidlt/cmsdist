@@ -23,6 +23,7 @@ esac
   --with-zlib=${ZLIB_ROOT} \
   --with-ssl=${OPENSSL_ROOT} \
   --without-nss \
+  --without-libssh2 \
   --with-gssapi=${KERBEROS_ROOT} \
   CPPFLAGS="-I${NSPR_ROOT}/include/nspr -I${NSS_ROOT}/include/nss3" \
   LDFLAGS="-L${NSPR_ROOT}/lib -L${NSS_ROOT}/lib"
