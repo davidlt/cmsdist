@@ -152,6 +152,7 @@ Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: gdb-toolfile
 Requires: google-perftools-toolfile
+Requires: igprof-toolfile
 %if %isnotaarch64
 Requires: dmtcp-toolfile
 %endif
@@ -170,7 +171,6 @@ Requires: oracle-toolfile
 
 # Only for Linux platform.
 %if %islinux
-Requires: igprof-toolfile
 Requires: glibc-toolfile
 %endif
 %endif
