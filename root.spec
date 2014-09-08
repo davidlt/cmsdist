@@ -1,14 +1,14 @@
 ### RPM lcg root 5.34.18
 ## INITENV +PATH PYTHONPATH %i/lib/python
 ## INITENV SET ROOTSYS %i
-%define tag 34038eefef5020635f6a2f877a60018381b9d9ce
+%define tag 6685636b54f8cfc022a84f7a29240fb62bc1c746
 %define branch cms/v5-34-18
 %define github_user cms-sw
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
 Patch0: root-5.34.17-add-linuxarm64-v2
 Patch1: root-5.34.17-enable-cintex-v2
-Patch2: root-5.34.17-genreflex-CMSSW_DICTDB_PATH
+Patch2: root-5.34.18-genreflex-CMSSW_DICTDB_PATH-v2
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
