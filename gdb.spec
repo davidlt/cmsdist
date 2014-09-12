@@ -1,5 +1,5 @@
-### RPM external gdb 7.7.1
-Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.bz2
+### RPM external gdb 7.8
+Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Patch0: gdb-7.6-fix-pythonhome
 Patch1: gdb-7.7.1-tgetent-in-ncurses
 Requires: python ncurses zlib xz expat
