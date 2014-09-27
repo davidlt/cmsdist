@@ -32,10 +32,10 @@ Source: http://davidlt.web.cern.ch/davidlt/dictdb/%{realversion}/allditcs.zip
 #     for line in build_log:
 #       if 'bin/genreflex' in line:
 #         args = re.split('[\s=]', line.strip())
-#         header_file = args[1]
-#         selection_file = args[3]
-#         dict_file = args[args.index('-o') + 1].replace('tmp/{0}/'.format(environ['SCRAM_ARCH']), '')
-#         cap_file = args[args.index('--capabilities') + 1].replace('tmp/{0}/'.format(environ['SCRAM_ARCH']), '')
+#         header_file = re.sub('.*/{0}/'.format(environ['CMSSW_VERSION']), '', args[1])
+#         selection_file = re.sub('.*/{0}/'.format(environ['CMSSW_VERSION']), '', args[3])
+#         dict_file = re.sub('.*tmp/{0}/'.format(environ['SCRAM_ARCH']), '', args[args.index('-o') + 1])
+#         cap_file = re.sub('.*tmp/{0}/'.format(environ['SCRAM_ARCH']), '', args[args.index('--capabilities') + 1])
 #         cap_file = "{0}/{1}".format(dirname(dict_file), cap_file)
 #         dict_db[header_file] = [selection_file, dict_file, cap_file]
 #       if 'bin/rootcint' in line:
