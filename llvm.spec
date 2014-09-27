@@ -25,11 +25,6 @@ curl -L -k -s -o ./autoconf/config.sub 'http://git.savannah.gnu.org/gitweb/?p=co
 curl -L -k -s -o ./autoconf/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./autoconf/config.{sub,guess}
 
-rm -f ./projects/sample/autoconf/config.{sub,guess}
-curl -L -k -s -o ./projects/sample/autoconf/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
-curl -L -k -s -o ./projects/sample/autoconf/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
-chmod +x ./projects/sample/autoconf/config.{sub,guess}
-
 %build
 
 CONF_OPTS=
