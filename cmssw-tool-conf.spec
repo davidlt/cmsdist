@@ -147,6 +147,8 @@ Requires: geant4-parfullcms-toolfile
 Requires: fasthadd
 Requires: eigen-toolfile
 Requires: gdb-toolfile
+Requires: tkonlinesw-fake-toolfile
+Requires: oracle-fake-toolfile
 
 # Only for Linux platform.
 %if %islinux
@@ -166,9 +168,7 @@ Requires: freetype-toolfile
 
 # Only for INTEL/AMD platforms.
 %if %isamd64
-Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
-Requires: oracle-toolfile
 
 # Only for Linux platform.
 %if %islinux
