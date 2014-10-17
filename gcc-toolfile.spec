@@ -126,6 +126,7 @@ case %cmsplatf in
   ;;
   *_aarch64_*)
     export ARCH_LIB64DIR="lib64"
+    export ARCH_LD_UNIT="-r -z muldefs"
   ;;
   *) 
     echo "Unsupported."
