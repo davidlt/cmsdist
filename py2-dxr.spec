@@ -1,5 +1,5 @@
 ### RPM external py2-dxr 1.0
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/$PYTHON_PURE_LIB_SITE_PACKAGES
 BuildRequires: llvm sqlite
 Requires: python zlib py2-setuptools py2-futures py2-jinja py2-markupsafe py2-ordereddict py2-parsimonious
 

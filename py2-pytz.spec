@@ -1,5 +1,5 @@
 ### RPM external py2-pytz 2014.7
-## INITENV +PATH PYTHONPATH %i/lib/python`echo $PYTHON_VERSION | cut -d. -f 1,2`/site-packages
+## INITENV +PATH PYTHONPATH %{i}/$PYTHON_PURE_LIB_SITE_PACKAGES
 Source: https://pypi.python.org/packages/source/p/pytz/pytz-%realversion.tar.gz
 Requires: python
 

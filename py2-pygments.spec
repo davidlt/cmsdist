@@ -1,5 +1,5 @@
 ### RPM external py2-pygments 1.6
-## INITENV +PATH PYTHONPATH %i/$PYTHON_LIB_SITE_PACKAGES
+## INITENV +PATH PYTHONPATH %{i}/$PYTHON_PURE_LIB_SITE_PACKAGES
 
 Source: http://pypi.python.org/packages/source/P/Pygments/Pygments-%realversion.tar.gz
 Requires: python py2-setuptools
