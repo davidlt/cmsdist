@@ -1,4 +1,4 @@
-### RPM cms cmssw-tool-conf 31.0
+### RPM cms cmssw-tool-conf 32.0
 ## NOCOMPILER
 # with cmsBuild, change the above version only when a new
 # tool is added
@@ -105,6 +105,14 @@ Requires: py2-pycurl-toolfile
 Requires: py2-sqlalchemy-toolfile
 Requires: py2-pygithub-toolfile
 Requires: py2-networkx-toolfile
+Requires: py2-dablooms-toolfile
+Requires: py2-dxr-toolfile
+Requires: py2-futures-toolfile
+Requires: py2-jinja-toolfile
+Requires: py2-markupsafe-toolfile
+Requires: py2-ordereddict-toolfile
+Requires: py2-parsimonious-toolfile
+Requires: py2-pygments-toolfile
 Requires: rivet-toolfile
 Requires: cascade-toolfile
 Requires: cython-toolfile
@@ -136,6 +144,8 @@ Requires: cgal-toolfile
 Requires: doxygen-toolfile
 Requires: py2-python-dateutil-toolfile
 Requires: yaml-cpp-toolfile
+Requires: gmp-static-toolfile
+Requires: mpfr-static-toolfile
 Requires: fastjet-contrib-toolfile
 Requires: cuda-toolfile
 Requires: opencl-toolfile
@@ -149,6 +159,7 @@ Requires: eigen-toolfile
 Requires: gdb-toolfile
 Requires: tkonlinesw-fake-toolfile
 Requires: oracle-fake-toolfile
+Requires: py2-pytz-toolfile
 
 # Only for Linux platform.
 %if %islinux

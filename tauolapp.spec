@@ -1,4 +1,4 @@
-### RPM external tauolapp 1.1.4
+### RPM external tauolapp 1.1.5
 Source: http://service-spi.web.cern.ch/service-spi/external/MCGenerators/distribution/tauola++/tauola++-%{realversion}-src.tgz
 Requires: hepmc
 Requires: pythia8
@@ -28,7 +28,8 @@ curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=conf
 curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./config/config.{sub,guess}
 
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8libs=$PYTHIA_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8=$PYTHIA8_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CPPFLAGS="%cms_cxxflags"
+
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
   osx*)
@@ -41,3 +42,6 @@ make
 
 %install
 make install
+
+mkdir %{i}/share
+cp TauSpinner/examples/CP-tests/Z-pi/*.txt %{i}/share/
