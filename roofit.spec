@@ -5,8 +5,6 @@
 Source: git+https://github.com/%github_user/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 Source1: roofit-5.28.00-build.sh
 
-Patch0: root-5.34.17-add-linuxarm64-v2
-
 Requires: root 
 
 %if "%{?cms_cxxflags:set}" != "set"
@@ -15,7 +13,6 @@ Requires: root
 
 %prep
 %setup -b0 -n %{n}-%{realversion}
-%patch0 -p1
  
 %build
 #Copy over the tutorials
