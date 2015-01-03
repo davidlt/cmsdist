@@ -1,0 +1,32 @@
+From 8a89051d44015ecbfadfc127a853b322816e9324 Mon Sep 17 00:00:00 2001
+From: David Abdurachmanov <davidlt@cern.ch>
+Date: Sun, 28 Dec 2014 07:41:06 -0500
+Subject: [PATCH] PR63442 libgcc_cmp_return_mode not always return word_mode
+
+gcc/
+  PR target/63442
+  * optabs.c (prepare_cmp_insn): Use "ret_mode" instead of "word_mode".
+
+Original commit in gcc repository: 5d098163f7aad3bed4124abc929983a620de2a82
+
+Signed-off-by: David Abdurachmanov <davidlt@cern.ch>
+---
+ gcc/optabs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gcc/optabs.c b/gcc/optabs.c
+index 54f07ab..9819cab 100644
+--- a/gcc/optabs.c
++++ b/gcc/optabs.c
+@@ -4234,7 +4234,7 @@ prepare_cmp_insn (rtx x, rtx y, enum rtx_code comparison, rtx size,
+ 	    y = const0_rtx;
+ 	}
+ 
+-      *pmode = word_mode;
++      *pmode = ret_mode;
+       prepare_cmp_insn (x, y, comparison, NULL_RTX, unsignedp, methods,
+ 			ptest, pmode);
+     }
+-- 
+1.8.3.1
+
