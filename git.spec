@@ -7,6 +7,7 @@
 
 %define isDarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isNotDarwin %(case %{cmsos} in (osx*) echo 0 ;; (*) echo 1 ;; esac)
+%define isSlc %(case %{cmsos} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 
 Source0: https://github.com/git/git/archive/v%{realversion}.tar.gz
 Patch1: git-1.8.3.1-no-symlink
@@ -93,10 +94,13 @@ mkdir -p %{i}/share/ssl/certs
 cp ./ca-bundle/ca-bundle.crt %{i}/share/ssl/certs/ca-bundle.crt
 
 %post
+%if %isSlc
+  %{relocateConfig}libexec/git-core/git-citool
+  %{relocateConfig}libexec/git-core/git-gui
+%endif
+
 %{relocateConfig}bin/git-cvsserver
 %{relocateConfig}libexec/git-core/git-sh-i18n
-%{relocateConfig}libexec/git-core/git-citool
-%{relocateConfig}libexec/git-core/git-gui
 %{relocateConfig}libexec/git-core/git-add--interactive
 %{relocateConfig}libexec/git-core/git-archimport
 %{relocateConfig}libexec/git-core/git-cvsexportcommit

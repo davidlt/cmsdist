@@ -28,7 +28,7 @@ curl -L -k -s -o ./config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=conf
 curl -L -k -s -o ./config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./config/config.{sub,guess}
 
-./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8=$PYTHIA8_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CPPFLAGS="%cms_cxxflags"
+./configure --prefix=%{i} --with-hepmc=$HEPMC_ROOT --with-pythia8=$PYTHIA8_ROOT --with-lhapdf=$LHAPDF_ROOT CXX="%cms_cxx" CPPFLAGS="%cms_cxxflags -I${BOOST_ROOT}/include"
 
 # One more fix-up for OSX (in addition to the patch above)
 case %cmsplatf in
