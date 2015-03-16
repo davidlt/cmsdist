@@ -7,6 +7,7 @@
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
+%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 
 %if %(case %{cmsplatf} in (*aarch64*) echo 1 ;; (*) echo 0 ;; esac) == 1
 %define cmsplatf_aarch64 1
@@ -54,7 +55,6 @@ Requires: jemalloc-toolfile
 Requires: jimmy-toolfile
 Requires: ktjet-toolfile
 Requires: lhapdf-toolfile
-Requires: lhapdf6-toolfile
 Requires: libhepml-toolfile
 Requires: libjpg-toolfile
 Requires: libpng-toolfile
@@ -64,7 +64,6 @@ Requires: libxml2-toolfile
 Requires: mcdb-toolfile
 Requires: meschach-toolfile
 Requires: openssl-toolfile
-Requires: openloops-toolfile
 Requires: oracle-env
 Requires: pcre-toolfile
 Requires: photos-toolfile
@@ -181,7 +180,14 @@ Requires: freetype-toolfile
 
 # Only for INTEL/AMD platforms.
 %if %isamd64
+Requires: tkonlinesw-toolfile
 Requires: py2-cx-oracle-toolfile
+Requires: oracle-toolfile
+
+# Only for slc platforms.
+%if %isslc
+Requires: openloops-toolfile
+%endif
 
 # Only for Linux platform.
 %if %islinux
@@ -189,7 +195,7 @@ Requires: glibc-toolfile
 %endif
 %endif
 
-%define skipreqtools jcompiler lhapdfwrapfull lhapdffull icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp lhapdf6
+%define skipreqtools jcompiler icc-cxxcompiler icc-ccompiler icc-f77compiler cuda rivet2 opencl opencl-cpp
 
 ## IMPORT scramv1-tool-conf
 
