@@ -4,12 +4,15 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
+Patch0: libpng-fix-arm-neon
+
 BuildRequires: cmake
 Requires: zlib
 
 %prep
 %setup -n %{n}-%{realversion}
- 
+%patch0 -p1
+
 %build
 cmake . \
   -DCMAKE_INSTALL_PREFIX:PATH="%{i}" \
