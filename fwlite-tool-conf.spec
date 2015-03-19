@@ -4,7 +4,7 @@
 # tool is added
 ## INITENV SET CMSSW_TOOL_CONF_ROOT $FWLITE_TOOL_CONF_ROOT
 
-%define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslc6 %(case %{cmsos} in (slc6*) echo 1 ;; (*) echo 0 ;; esac)
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 
@@ -50,7 +50,7 @@ Requires: libxml2-toolfile
 Requires: llvm-gcc-toolfile
 
 %if %isamd64
-%if %islinux
+%if %isslc6
 Requires: glibc-toolfile
 %endif
 %endif
