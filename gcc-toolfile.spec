@@ -51,7 +51,7 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/gcc-cxxcompiler.xml
     <flags CXXSHAREDOBJECTFLAGS="-fPIC @OS_CXXSHAREDOBJECTFLAGS@ @ARCH_CXXSHAREDOBJECTFLAGS@ @COMPILER_CXXSHAREDOBJECTFLAGS@"/>
     <flags CXXFLAGS="-O2 -pthread -pipe -Werror=main -Werror=pointer-arith"/>
     <flags CXXFLAGS="-Werror=overlength-strings -Wno-vla @OS_CXXFLAGS@ @ARCH_CXXFLAGS@ @COMPILER_CXXFLAGS@"/>
-    <flags CXXFLAGS="-felide-constructors -fmessage-length=0 -ftemplate-depth-300"/>
+    <flags CXXFLAGS="-felide-constructors -fmessage-length=0"/>
     <flags CXXFLAGS="-Wall -Wno-non-template-friend -Wno-long-long -Wreturn-type"/>
     <flags CXXFLAGS="-Wunused -Wparentheses -Wno-deprecated -Werror=return-type"/>
     <flags CXXFLAGS="-Werror=missing-braces -Werror=unused-value"/>
@@ -171,10 +171,10 @@ esac
 
 case %cmsplatf in
   *_amd64_gcc4[56789]*)
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -msse3 -ftree-vectorize -Wno-strict-overflow"
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++14 -msse3 -ftree-vectorize -Wno-strict-overflow"
     ;;
   *_armv7hl_*|*_aarch64_*)
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++11 -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
+    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++14 -ftree-vectorize -Wno-strict-overflow -fsigned-char -fsigned-bitfields"
     ;;
 esac
 
