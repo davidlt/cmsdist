@@ -20,6 +20,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost.xml
     <environment name="INCLUDE" default="$BOOST_BASE/include"/>
   </client>
   <runtime name="CMSSW_FWLITE_INCLUDE_PATH" value="$BOOST_BASE/include" type="path"/>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <flags CPPDEFINES="BOOST_SPIRIT_THREADSAFE PHOENIX_THREADSAFE"/>
   <use name="sockets"/>
 </tool>
@@ -63,6 +65,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_python.xml
     <environment name="LIBDIR" default="$BOOST_PYTHON_BASE/lib"/>
     <environment name="INCLUDE" default="$BOOST_PYTHON_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE
@@ -117,6 +121,8 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/boost_header.xml
     <environment name="BOOSTHEADER_BASE" default="@TOOL_ROOT@"/>
     <environment name="INCLUDE" default="$BOOSTHEADER_BASE/include"/>
   </client>
+  <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path"/>
+  <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
 
