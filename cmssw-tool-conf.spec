@@ -9,14 +9,6 @@
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
 %define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
 
-%if %(case %{cmsplatf} in (*aarch64*) echo 1 ;; (*) echo 0 ;; esac) == 1
-%define cmsplatf_aarch64 1
-%endif
-
-%if 0%{?cmsplatf_aarch64}
-Requires: cmssw-dictdb-toolfile
-%endif
-
 Requires: alpgen-toolfile
 Requires: boost-toolfile
 Requires: bz2lib-toolfile
@@ -74,7 +66,6 @@ Requires: python-toolfile
 %if %isnotaarch64
 Requires: qt-toolfile
 %endif
-Requires: roofit-toolfile
 Requires: root-toolfile
 Requires: sherpa-toolfile
 Requires: sigcpp-toolfile
