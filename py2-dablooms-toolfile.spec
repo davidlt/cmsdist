@@ -12,8 +12,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-dablooms.xml
   <info url="https://github.com/bitly/dablooms"/>
   <client>
     <environment name="PY2_DABLOOMS" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_DABLOOMS/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_DABLOOMS/lib/python@PYTHONV@/site-packages" type="path"/>
+    <environment name="LIBDIR" default="$PY2_DABLOOMS/lib64"/>
+    <runtime name="PYTHONPATH" value="$PY2_DABLOOMS/lib64/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE
