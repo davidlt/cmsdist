@@ -1,4 +1,4 @@
-### RPM cms cmssw-dictdb CMSSW_7_2_X_2014-06-18-1400
+### RPM cms cmssw-dictdb CMSSW_7_4_0_pre9_ARM64
 
 Source: http://davidlt.web.cern.ch/davidlt/dictdb/%{realversion}/allditcs.zip
 
@@ -16,7 +16,7 @@ Source: http://davidlt.web.cern.ch/davidlt/dictdb/%{realversion}/allditcs.zip
 # find src -name '*.cc'  | zip -@ allditcs
 # mv allditcs.zip ../..
 # cd ../..
-# cat <EOF > do.py
+# cat <<EOF > do.py
 # import re
 # import json
 # from os.path import dirname
