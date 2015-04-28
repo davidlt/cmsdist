@@ -12,8 +12,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-markupsafe.xml
   <info url="https://pypi.python.org/pypi/MarkupSafe"/>
   <client>
     <environment name="PY2_MARKUPSAFE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_MARKUPSAFE_BASE/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_MARKUPSAFE_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
+    <environment name="LIBDIR" default="$PY2_MARKUPSAFE_BASE/lib64"/>
+    <runtime name="PYTHONPATH" value="$PY2_MARKUPSAFE_BASE/lib64/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE
