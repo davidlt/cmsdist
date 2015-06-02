@@ -5,8 +5,6 @@
 %define github_user cms-externals
 Source: git+https://github.com/%github_user/%n.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Patch0: boost-1.57.0-define-BOOST_SP_USE_SPINLOCK
-
 %if "%{?cms_cxxflags:set}" != "set"
 %define cms_cxxflags -std=c++11 -O2
 %endif
@@ -15,7 +13,6 @@ Requires: python bz2lib zlib
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 case %cmsos in 
