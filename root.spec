@@ -1,9 +1,8 @@
 ### RPM lcg root 6.04.00
 ## INITENV +PATH PYTHONPATH %{i}/lib
 ## INITENV SET ROOTSYS %{i}
-%define tag b07b8dfe6f933e582a0273899fdd3690b30c1ea7
+%define tag b52424a8c0fcc66030ffb05a4d69c27897bc31ad
 %define branch master
-%define github_user cms-sw
 Source: git+http://root.cern.ch/git/root.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}-%{tag}.tgz
 
 %define islinux %(case %{cmsos} in (slc*|fc*) echo 1 ;; (*) echo 0 ;; esac)
@@ -84,6 +83,7 @@ CONFIG_ARGS="--enable-table
              --disable-qt
              --disable-qtgsi
              --disable-hdfs
+             --disable-vdt
              --disable-oracle ${EXTRA_CONFIG_ARGS}
              --enable-roofit"
 

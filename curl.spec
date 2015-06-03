@@ -1,18 +1,18 @@
 ### RPM external curl 7.36.0
 Source: http://curl.haxx.se/download/%{n}-%{realversion}.tar.gz
+Provides: libcurl.so.3()(64bit)
 Requires: openssl
 Requires: zlib
-   
+
 %prep
 %setup -n %{n}-%{realversion}
 
 %build
 export ZLIB_ROOT
-export NSS_ROOT
+
 case %{cmsplatf} in
-  slc6*|fc*) KERBEROS_ROOT=/usr ;;
-  slc5*) KERBEROS_ROOT=/usr/kerberos ;;
   osx*) KERBEROS_ROOT=/usr/heimdal ;;
+  *) KERBEROS_ROOT=/usr ;;
 esac
 
 ./configure \

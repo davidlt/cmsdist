@@ -17,6 +17,7 @@ Requires: data-RecoParticleFlow-PFProducer
 Requires: data-RecoMuon-MuonIdentification
 Requires: data-RecoMET-METPUSubtraction
 Requires: data-RecoEgamma-ElectronIdentification
+Requires: data-RecoEgamma-PhotonIdentification
 Requires: data-RecoJets-JetProducers
 Requires: data-CalibTracker-SiPixelESProducers
 Requires: data-CalibCalorimetry-CaloMiscalibTools
@@ -29,6 +30,8 @@ Requires: data-GeneratorInterface-EvtGenInterface
 Requires: data-MagneticField-Interpolation
 Requires: data-RecoBTag-SoftLepton
 Requires: data-Calibration-Tools
+Requires: data-RecoBTag-SecondaryVertex
+Requires: data-HLTrigger-JetMET
 
 %if %isnotonline
 # extra data dependencies for standard builds

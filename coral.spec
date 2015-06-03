@@ -6,10 +6,8 @@ Patch3: coral-CORAL_2_3_20-hide-strict-aliasing
 Patch4: coral-CORAL_2_3_20-remove-lost-dependencies
 Patch5: coral-CORAL_2_3_21-move-to-libuuid
 Patch6: coral-CORAL_2_3_21-forever-ttl
-
-%if %(case %{cmsplatf} in (*armv7*) echo 1 ;; (*) echo 0 ;; esac) == 1
-%define cmsplatf_armv7 1
-%endif
+Patch7: coral-CORAL_2_3_21-fix-timestamp-sqlite
+Patch8: coral-CORAL_2_3_21-fix-timestamp-frontier
 
 %if %(case %{cmsplatf} in (*aarch64*) echo 1 ;; (*) echo 0 ;; esac) == 1
 %define cmsplatf_aarch64 1
@@ -24,19 +22,21 @@ Patch6: coral-CORAL_2_3_21-forever-ttl
 
 # Disable building tests, since they bring dependency on cppunit:
 %if %isdarwin
-%define patchsrc3       perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
-%define patchsrc        %patch0 -p1 
+%define patchsrc        perl -p -i -e 's!(<classpath.*/tests\\+.*>)!!;' config/BuildFile.xml
+%define patchsrc2       %patch0 -p1 
 %endif
 
-%define patchsrc4       %patch5 -p0
-%define patchsrc5       %patch2 -p0
-%define patchsrc6       %patch3 -p0
-%define patchsrc7       %patch4 -p0
-%define patchsrc9	%patch6 -p0
+%define patchsrc3       %patch5 -p0
+%define patchsrc4       %patch2 -p0
+%define patchsrc5       %patch3 -p0
+%define patchsrc6       %patch4 -p0
+%define patchsrc7       %patch6 -p0
+%define patchsrc8       %patch7 -p1
+%define patchsrc9       %patch8 -p1
 
-# Drop Oracle interface on ARM machines. 
-# Oracle does not provide Instant Client for ARMv7/v8.
-%if 0%{?cmsplatf_armv7}%{cmsplatf_aarch64}
+# Drop Oracle interface on ARM machines.
+# Oracle does not provide Instant Client for ARMv8.
+%if 0%{?cmsplatf_aarch64}
 %define patchsrc8       rm -rf ./src/OracleAccess
 %endif
 
