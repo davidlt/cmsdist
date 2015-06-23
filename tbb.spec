@@ -1,5 +1,7 @@
-### RPM external tbb 43_20150316oss
+### RPM external tbb 43_20150424oss
 Source: https://www.threadingbuildingblocks.org/sites/default/files/software_releases/source/%{n}%{realversion}_src.tgz
+
+Patch0: tbb43_20150424oss.clang.use.__sync_
 
 %if "%{?cms_cxx:set}" != "set"
 %define cms_cxx g++
@@ -11,6 +13,7 @@ Source: https://www.threadingbuildingblocks.org/sites/default/files/software_rel
 
 %prep
 %setup -n tbb%{realversion}
+%patch0 -p1
 
 %build
 
