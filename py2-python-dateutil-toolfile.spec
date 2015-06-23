@@ -13,7 +13,6 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-python-dateutil.xml
     <environment name="PY2_PYTHON_DATEUTIL_BASE" default="@TOOL_ROOT@"/>
   </client>
   <runtime name="PYTHONPATH" value="$PY2_PYTHON_DATEUTIL_BASE/lib/python@PYTHONV@/site-packages" type="path"/>
-  <runtime name="PYTHONPATH" value="$PY2_PYTHON_DATEUTIL_BASE/lib64/python@PYTHONV@/site-packages" type="path"/>
   <use name="python"/>
 </tool>
 EOF_TOOLFILE
