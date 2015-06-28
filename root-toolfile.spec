@@ -22,14 +22,16 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root_interface.xml
 <tool name="root_interface" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <client>
-    <environment name="ROOT_INTERFACE_BASE" default="@TOOL_ROOT@"/>
-    <environment name="INCLUDE"             default="$ROOT_INTERFACE_BASE/include"/>
-    <environment name="LIBDIR"              default="$ROOT_INTERFACE_BASE/lib"/>
+    <environment name="ROOT_INTERFACE_BASE"     default="@TOOL_ROOT@"/>
+    <environment name="INCLUDE"                 default="$ROOT_INTERFACE_BASE/include"/>
+    <environment name="LIBDIR"                  default="$ROOT_INTERFACE_BASE/lib"/>
   </client>
-  <runtime name="PATH"               value="$ROOT_INTERFACE_BASE/bin" type="path"/>
-  <runtime name="PYTHONPATH"         value="$ROOT_INTERFACE_BASE/lib" type="path"/>
-  <runtime name="ROOTSYS"            value="$ROOT_INTERFACE_BASE/"/>
-  <runtime name="ROOT_INCLUDE_PATH"  value="$INCLUDE" type="path"/>
+  <runtime name="PATH"                          value="$ROOT_INTERFACE_BASE/bin" type="path"/>
+  <runtime name="PYTHONPATH"                    value="$ROOT_INTERFACE_BASE/lib" type="path"/>
+  <runtime name="ROOTSYS"                       value="$ROOT_INTERFACE_BASE/"/>
+  <runtime name="ROOT_TTREECACHE_SIZE"          value="0"/>
+  <runtime name="ROOT_TTREECACHE_PREFILL"       value="0"/>
+  <runtime name="ROOT_INCLUDE_PATH"             value="$INCLUDE" type="path"/>
   <use name="root_cxxdefaults"/>
 </tool>
 EOF_TOOLFILE
@@ -150,6 +152,9 @@ cat << \EOF_TOOLFILE >%i/etc/scram.d/root.xml
 <tool name="root" version="@TOOL_VERSION@">
   <info url="http://root.cern.ch/root/"/>
   <use name="rootphysics"/>
+  <ifversion name="^[6-9]\.">
+    <flags NO_CAPABILITIES="yes"/>
+  </ifversion>
 </tool>
 EOF_TOOLFILE
 
