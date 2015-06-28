@@ -6,7 +6,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 
 %if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
-Requires: openloops
+#Requires: openloops
 %endif
 
 %if "%{?cms_cxx:set}" != "set"
@@ -35,9 +35,12 @@ case %cmsplatf in
   ;;
 esac
 
+./AddOns/MCFM/install_mcfm.sh
+
 %build
 ./configure --prefix=%i --enable-analysis --disable-silent-rules \
             --enable-fastjet=$FASTJET_ROOT \
+            --enable-mcfm=$PWD/ \
             --enable-hepmc2=$HEPMC_ROOT \
             --enable-lhapdf=$LHAPDF_ROOT \
             --enable-blackhat=$BLACKHAT_ROOT \
