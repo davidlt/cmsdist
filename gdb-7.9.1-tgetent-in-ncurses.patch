@@ -12,10 +12,10 @@ index 52bd1c3..8b954d3 100644
  dnl Test for the exact version when AC_INIT is expanded.
  dnl This allows to update the tree in steps (for testing)
 diff --git a/gdb/configure.ac b/gdb/configure.ac
-index 55f37d2..f12c667 100644
+index 96845ac..152d520 100644
 --- a/gdb/configure.ac
 +++ b/gdb/configure.ac
-@@ -633,7 +633,7 @@ case $host_os in
+@@ -614,7 +614,7 @@ case $host_os in
  esac
  
  # These are the libraries checked by Readline.

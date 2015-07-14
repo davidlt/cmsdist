@@ -8,6 +8,7 @@
 %{expand:%%define python_major_version %(echo %realversion | cut -d. -f1,2)}
 
 Requires: expat bz2lib db6 gdbm openssl
+
 Requires: zlib sqlite readline ncurses libffi
 
 # FIXME: readline, crypt 

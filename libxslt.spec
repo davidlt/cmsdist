@@ -5,7 +5,7 @@
 %define github_user cms-externals
 Source0: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export=%{n}-%{realversion}&output=/%{n}-%{realversion}.tgz
 
-Requires: libxml2
+Requires: libxml2 python
 BuildRequires: autotools
 %prep
 %setup -n %{n}-%{realversion}

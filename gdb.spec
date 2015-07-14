@@ -1,7 +1,8 @@
-### RPM external gdb 7.8.1
+### RPM external gdb 7.9.1
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Patch0: gdb-7.6-fix-pythonhome
-Patch1: gdb-7.7.1-tgetent-in-ncurses
+Patch1: gdb-7.9.1-tgetent-in-ncurses
+Patch2: gdb-disable-makeinfo
 Requires: python ncurses zlib xz expat
 BuildRequires: autotools
 
@@ -9,6 +10,7 @@ BuildRequires: autotools
 %setup -n %n-%realversion
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
@@ -27,7 +29,8 @@ popd
             --with-lzma=yes \
             --with-liblzma-prefix=${XZ_ROOT} \
             LDFLAGS="-L${PYTHON_ROOT}/lib64 -L${NCURSES_ROOT}/lib -L${ZLIB_ROOT}/lib -L${EXPAT_ROOT}/lib -L${XZ_ROOT}/lib" \
-            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${NCURSES_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include"
+            CFLAGS="-Wno-error=strict-aliasing -I${PYTHON_ROOT}/include -I${NCURSES_ROOT}/include -I${ZLIB_ROOT}/include -I${EXPAT_ROOT}/include -I${XZ_ROOT}/include" \
+            MAKEINFO=true
 make %makeprocesses
 
 %install
