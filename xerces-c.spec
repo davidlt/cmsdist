@@ -45,13 +45,13 @@ case %cmsplatf in
 esac
 
 case %{cmsplatf} in
-  slc*)
+  slc*_amd64_*)
     ./runConfigure -P%{i} -plinux -cgcc -x%{cms_cxx} ;;
-  *aarch64*)
+  *_aarch64_*)
     ./runConfigure -P%{i} -b 64 -plinux -cgcc -x%{cms_cxx} ;;
   osx*)
     ./runConfigure -P%{i} -b 64 -pmacosx -nnative -rnone -cgcc -x%{cms_cxx} ;;
-  *armv7*)
+  *_armv7hl_*)
     ./runConfigure -P%{i} -b 32 -plinux -cgcc -x%{cms_cxx} ;;
   *)
     echo "Unsupported configuration. Please modify SPEC file accordingly."
