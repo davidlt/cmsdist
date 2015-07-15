@@ -125,7 +125,7 @@ case %cmsplatf in
     export ARCH_LIB64DIR="lib"
     export ARCH_LD_UNIT="-r"
   ;;
-  slc*)
+  slc*_amd64_*)
     # For some reason on mac, some of the header do not compile if this is
     # defined.  Ignore for now.
     export ARCH_LIB64DIR="lib64"
