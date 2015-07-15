@@ -11,7 +11,7 @@ curl -L -k -s -o ./build-aux/config.sub 'http://git.savannah.gnu.org/gitweb/?p=c
 curl -L -k -s -o ./build-aux/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
 chmod +x ./build-aux/config.{sub,guess}
 
-./configure CFLAGS='-fPIC -Ofast' --prefix=%{i} --disable-static
+./configure CFLAGS='-fPIC -D_FILE_OFFSET_BITS=64 -Ofast' --prefix=%{i} --disable-static
 make %{makeprocesses}
 
 %install
