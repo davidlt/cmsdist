@@ -55,7 +55,7 @@ rm -fr instantclient_*
 %setup -D -T -b 4 -n %macdir %copydate-instantclient-sqlplus-%macversion-%macarch.zip
 %endif
 
-%if %(case %cmsos in (slc*) echo true ;; (*) echo false ;; esac) == true
+%if %(case %cmsos in (slc*_amd64_*) echo true ;; (*) echo false ;; esac) == true
 %setup -D -T -b 5 -n %linuxdir %copydate-instantclient-basic-%linuxarch-%linuxversion.zip
 %setup -D -T -b 6 -n %linuxdir %copydate-instantclient-basiclite-%linuxarch-%linuxversion.zip
 %setup -D -T -b 7 -n %linuxdir %copydate-instantclient-jdbc-%linuxarch-%linuxversion.zip
