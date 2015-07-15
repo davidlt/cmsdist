@@ -1,4 +1,4 @@
-### RPM external rpm 4.11.2
+### RPM external rpm 4.12.0.1
 ## INITENV +PATH LD_LIBRARY_PATH %{i}/lib64
 ## INITENV SET RPM_CONFIGDIR %{i}/lib/rpm
 ## INITENV SET RPM_POPTEXEC_PATH %{i}/bin
@@ -13,27 +13,13 @@ Requires: bootstrap-bundle
 BuildRequires: autotools
 BuildRequires: gcc
 
-# The following two lines are a workaround for an issue seen with gcc4.1.2
-Provides: perl(Archive::Tar)
-Provides: perl(Specfile)
-# The Module::ScanDeps::DataFeed code is actually contained in perldeps.pl
-# but it is dumped out in a temporary file and imported from there, AFAICT.
-# For this reason it does not show up as provided by this package.
-# In order to work around the problem, we add a fake Provides statement.
-Provides: perl(Module::ScanDeps::DataFeed)
-
 Patch0: rpm-4.11.2-0001-Workaround-empty-buildroot-message
 Patch1: rpm-4.11.2-0002-Increase-line-buffer-20x
 Patch2: rpm-4.11.2-0003-Increase-macro-buffer-size-10x
 Patch3: rpm-4.11.2-0004-Improve-file-deps-speed
 Patch4: rpm-4.11.2-0005-Disable-internal-dependency-generator-libtool
 Patch5: rpm-4.11.2-0006-Remove-chroot-checks-and-chdir-calls
-Patch6: rpm-4.11.2-0007-Fix-Darwin-requires-script-Argument-list-too-long
-Patch7: rpm-4.11.2-0008-Fix-Darwin-provides-script
 Patch8: rpm-4.11.2-0009-Do-not-use-PKG_CHECK_MODULES-to-check-lua-availabili
-Patch9: rpm-4.11.2-0010-armhfp-logic
-Patch10: rpm-4.11.2-0011-armhfp
-Patch11: rpm-4.11.2-0012-improve-requires-interpreter-check
 
 # Defaults here
 %if %ismac
@@ -48,12 +34,7 @@ Provides: Kerberos
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1 
 %patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
 
 %build
 
@@ -61,11 +42,11 @@ Provides: Kerberos
 autoreconf -fiv
 
 case %cmsplatf in
-  slc*|*_mic_*)
+  slc*_amd64|*_mic_*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl"
   ;;
-  fc*)
+  slc*_aarch64_*|fc*)
     CFLAGS_PLATF="-fPIC"
     LIBS_PLATF="-ldl -lrt -pthread"
   ;;
@@ -100,7 +81,7 @@ perl -p -i -e's|-O2|-O0|' ./configure
 
 # Notice that libelf is now in $GCC_ROOT because also gcc LTO requires it.
 ./configure --prefix %{i} --build="%{_build}" --host="%{_host}" \
-    --with-external-db --disable-python --disable-nls \
+    --with-external-db --disable-python --disable-nls --with-archive \
     --disable-rpath --with-lua --localstatedir=%{i}/var \
     CXXFLAGS="$USER_CXXFLAGS $OS_CXXFLAGS" \
     CFLAGS="$CFLAGS_PLATF $USER_CFLAGS -I$BOOTSTRAP_BUNDLE_ROOT/include/nspr \
@@ -111,7 +92,7 @@ perl -p -i -e's|-O2|-O0|' ./configure
               -I$BOOTSTRAP_BUNDLE_ROOT/include/nss3 -I$BOOTSTRAP_BUNDLE_ROOT/include \
               $OS_CPPFLAGS" \
     LIBS="-lnspr4 -lnss3 -lnssutil3 -lplds4 -lbz2 -lplc4 -lz -lpopt -llzma \
-          -ldb -llua $LIBS_PLATF"
+          -ldb -llua -larchive $LIBS_PLATF"
 
 #FIXME: this does not seem to work and we still get /usr/bin/python in some of the files.
 export __PYTHON="/usr/bin/env python"
