@@ -14,15 +14,12 @@ Source3: http://ftp.gnu.org/gnu/m4/m4-%{m4_version}.tar.bz2
 Source4: http://ftp.gnu.org/pub/gnu/gettext/gettext-%{gettext_version}.tar.gz
 Source5: http://pkgconfig.freedesktop.org/releases/pkg-config-%{pkgconfig_version}.tar.gz
 
-#Patch0: gettext-0.19.2-fix-darwin
-
 %prep
 %setup -D -T -b 0 -n autoconf-%{autoconf_version}
 %setup -D -T -b 1 -n automake-%{automake_version}
 %setup -D -T -b 2 -n libtool-%{libtool_version}
 %setup -D -T -b 3 -n m4-%{m4_version}
 %setup -D -T -b 4 -n gettext-%{gettext_version}
-#patch0 -p1
 %setup -D -T -b 5 -n pkg-config-%{pkgconfig_version}
 
 %build
