@@ -23,7 +23,7 @@ CXX="%cms_cxx" CXXFLAGS="%cms_cxxflags" make %makeprocesses
 install -d %i/lib
 cp -r include %i/include
 case %cmsplatf in 
-  slc*) SONAME=so ;;
   osx*) SONAME=dylib ;;
+  *) SONAME=so ;;
 esac
 find build -name "*.$SONAME*" -exec cp {} %i/lib \; 
