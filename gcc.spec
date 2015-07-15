@@ -1,10 +1,10 @@
-### RPM external gcc 4.9.2
+### RPM external gcc 4.9.3
 ## INITENV +PATH LD_LIBRARY_PATH %i/lib64
 #Source0: ftp://gcc.gnu.org/pub/gcc/snapshots/4.7.0-RC-20120302/gcc-4.7.0-RC-20120302.tar.bz2
 # Use the svn repository for fetching the sources. This gives us more control while developing
 # a new platform so that we can compile yet to be released versions of the compiler.
-%define gccRevision 216910
-%define gccBranch tags/gcc_4_9_2_release
+%define gccRevision 225078
+%define gccBranch tags/gcc_4_9_3_release
 
 %define moduleName gcc-%(echo %{gccBranch} | tr / _)-%{gccRevision}
 Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{gccRevision}&output=/%{moduleName}.tar.gz
@@ -18,10 +18,10 @@ Source0: svn://gcc.gnu.org/svn/gcc/%{gccBranch}?module=%{moduleName}&revision=%{
 %define keep_archives true
 
 %define gmpVersion 6.0.0a
-%define mpfrVersion 3.1.2
-%define mpcVersion 1.0.2
+%define mpfrVersion 3.1.3
+%define mpcVersion 1.0.3
 %define islVersion 0.12.2
-%define cloogVersion 0.18.1
+%define cloogVersion 0.18.3
 %define zlibVersion 1.2.8
 Source1: ftp://ftp.gnu.org/gnu/gmp/gmp-%{gmpVersion}.tar.bz2
 Source2: http://www.mpfr.org/mpfr-%{mpfrVersion}/mpfr-%{mpfrVersion}.tar.bz2
@@ -32,9 +32,9 @@ Source6: http://www.bastoul.net/cloog/pages/download/cloog-%{cloogVersion}.tar.g
 Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 
 %if %islinux
-%define bisonVersion 3.0.2
-%define binutilsVersion 2.24
-%define elfutilsVersion 0.159
+%define bisonVersion 3.0.4
+%define binutilsVersion 2.25
+%define elfutilsVersion 0.163
 %define m4Version 1.4.17
 %define flexVersion 2.5.39
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
