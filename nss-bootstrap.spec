@@ -1,15 +1,14 @@
-### RPM external nss-bootstrap 3.17.4
-%define tag 54d4a1c5f968f7d329c2d076bac2c54b6421ea71
-%define branch cms/v3.17.4
-%define github_user cms-externals
-Source: git+https://github.com/%github_user/nss.git?obj=%{branch}/%{tag}&export=nss-%{realversion}&output=/nss-%{realversion}-%{tag}.tgz
-
-Requires: nspr-bootstrap sqlite-bootstrap zlib-bootstrap
+### RPM external nss-bootstrap 3.19.2
+%define release_version %(echo "%{realversion}" | tr . _)_RTM
+Source: https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_%{release_version}/src/nss-%{realversion}.tar.gz
+Requires: nspr-bootstrap zlib-bootstrap
+Patch0: nss-3.16-0001-Add-support-for-non-standard-location-zlib
 
 %define strip_files %{i}/lib
 
 %prep
 %setup -n nss-%{realversion}
+%patch0 -p1
 
 %build
 export NSPR_INCLUDE_DIR="${NSPR_BOOTSTRAP_ROOT}/include/nspr"
@@ -21,7 +20,7 @@ export NSS_NO_PKCS11_BYPASS=1
 export ZLIB_INCLUDE_DIR="${ZLIB_BOOTSTRAP_ROOT}/include"
 export ZLIB_LIB_DIR="${ZLIB_BOOTSTRAP_ROOT}/lib"
 case "%{cmsplatf}" in
-  *_amd64_*|*_aarch64_* )
+  *_amd64_*|*_aarch64_*|*_ppc64le_*)
     export USE_64=1
     ;;
 esac
