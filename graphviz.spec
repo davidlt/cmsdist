@@ -7,7 +7,7 @@ Requires: expat zlib libjpeg-turbo libpng
 
 %build
 case %cmsplatf in
-    slc*)
+    slc*|fc*)
         ADDITIONAL_OPTIONS="--with-freetype2=no --disable-shared --enable-static --disable-ltdl"
     ;;
     osx*)
@@ -59,7 +59,7 @@ rm -rf %i/lib/pkgconfig
 
 # To match configure options above
 case %cmsplatf in
-    slc*)
+    slc*|fc*)
         ln -s dot_static %i/bin/dot
     ;;
 esac
