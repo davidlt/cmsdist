@@ -7,7 +7,7 @@
 %define isdarwin %(case %{cmsos} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 %define isamd64 %(case %{cmsplatf} in (*amd64*) echo 1 ;; (*) echo 0 ;; esac)
 %define isnotaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 0 ;; (*) echo 1 ;; esac)
-%define isslc %(case %{cmsplatf} in (slc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isslcamd64 %(case %{cmsplatf} in (slc*_amd64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 Requires: alpgen-toolfile
 Requires: boost-toolfile
@@ -176,7 +176,7 @@ Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 
 # Only for slc platforms.
-%if %isslc
+%if %isslcamd64
 #Requires: openloops-toolfile
 %endif
 
