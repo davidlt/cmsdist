@@ -4,7 +4,7 @@
 Source: http://pypi.python.org/packages/source/p/%{n}/%{n}-%{realversion}.tar.gz
 Requires: python openssl openldap
 
-%define isfc %(case %{cmsplatf} in (fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 %prep
 %setup -q -n %{n}-%{realversion}
@@ -18,7 +18,7 @@ python setup.py build
 
 %install
 
-%if %isfc
+%if 0%{isaarch64}
   mkdir -p %{i}/${PYTHON_LIB_SITE_PACKAGES}
   export PYTHONPATH=%{i}/${PYTHON_LIB_SITE_PACKAGES}:${PYTHONPATH}
 %endif
