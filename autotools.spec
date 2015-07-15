@@ -1,18 +1,20 @@
-### RPM external autotools 1.1
+### RPM external autotools 1.2
 # We keep all of them together to simplify the "requires" statements.
 %define autoconf_version 2.69
-%define automake_version 1.14
+%define automake_version 1.14.1
 %define automake_maj %(echo %{automake_version} | cut -f1,2 -d.)
 %define libtool_version 2.4.2
 %define m4_version 1.4.17
-%define gettext_version 0.19.2
+%define gettext_version 0.19.4
+%define pkgconfig_version 0.28
 Source0: http://ftpmirror.gnu.org/autoconf/autoconf-%{autoconf_version}.tar.gz
 Source1: http://ftpmirror.gnu.org/automake/automake-%{automake_version}.tar.gz
 Source2: http://ftpmirror.gnu.org/libtool/libtool-%{libtool_version}.tar.gz
 Source3: http://ftp.gnu.org/gnu/m4/m4-%{m4_version}.tar.bz2
 Source4: http://ftp.gnu.org/pub/gnu/gettext/gettext-%{gettext_version}.tar.gz
+Source5: http://pkgconfig.freedesktop.org/releases/pkg-config-%{pkgconfig_version}.tar.gz
 
-Patch0: gettext-0.19.2-fix-darwin
+#Patch0: gettext-0.19.2-fix-darwin
 
 %prep
 %setup -D -T -b 0 -n autoconf-%{autoconf_version}
@@ -20,7 +22,8 @@ Patch0: gettext-0.19.2-fix-darwin
 %setup -D -T -b 2 -n libtool-%{libtool_version}
 %setup -D -T -b 3 -n m4-%{m4_version}
 %setup -D -T -b 4 -n gettext-%{gettext_version}
-%patch0 -p1
+#patch0 -p1
+%setup -D -T -b 5 -n pkg-config-%{pkgconfig_version}
 
 %build
 export PATH=%i/bin:$PATH
@@ -61,6 +64,15 @@ pushd %_builddir/gettext-%{gettext_version}
               --disable-silent-rules
   make %makeprocesses && make install
 popd
+pushd %_builddir/pkg-config-%{pkgconfig_version}
+  ./configure --prefix %i \
+              --disable-silent-rules \
+              --disable-dependency-tracking \
+              --disable-host-tool \
+              --with-internal-glib \
+              --disable-shared
+  make %makeprocesses && make install
+popd
 
 # Fix perl location, required on /usr/bin/perl
 grep -l -R '/bin/perl' %{i} | xargs -n1 sed -ideleteme -e 's;^#!.*perl;#!/usr/bin/perl;'
@@ -91,3 +103,6 @@ echo "Foo"
 %{relocateConfig}bin/libtoolize
 %{relocateConfig}share/autoconf/autom4te.cfg
 %{relocateConfig}share/automake-%{automake_maj}/Automake/Config.pm
+%{relocateConfig}bin/gettextize
+%{relocateConfig}lib/gettext/user-email
+%{relocateConfig}bin/autopoint
