@@ -7,7 +7,7 @@ Source1: http://downloads.sourceforge.net/%{n}/%{n}-%{fc_version}.tar.bz2
 Requires: bz2lib
 
 %define isonline %(case %{cmsplatf} in (*onl_*_*) echo 1 ;; (*) echo 0 ;; esac)
-%define isfc %(case %{cmsplatf} in (fc*) echo 1 ;; (*) echo 0 ;; esac)
+%define isaarch64 %(case %{cmsplatf} in (*_aarch64_*) echo 1 ;; (*) echo 0 ;; esac)
 
 
 %if %isonline
@@ -21,7 +21,7 @@ Requires: zlib
 %endif
 
 %prep
-%if %isfc
+%if 0%{isaarch64}
 %setup -b 1 -n %{n}-%{fc_version}
 %else
 %setup -b 0 -n %{n}-%{generic_version}
