@@ -40,7 +40,7 @@ Source12: http://zlib.net/zlib-%{zlibVersion}.tar.gz
 Source7: http://ftp.gnu.org/gnu/bison/bison-%{bisonVersion}.tar.gz
 Source8: http://ftp.gnu.org/gnu/binutils/binutils-%{binutilsVersion}.tar.bz2
 Source9: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-%{elfutilsVersion}.tar.bz2
-Patch1: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability.patch
+Patch1: https://fedorahosted.org/releases/e/l/elfutils/%{elfutilsVersion}/elfutils-portability-%{elfutilsVersion}.patch
 Source10: http://ftp.gnu.org/gnu/m4/m4-%m4Version.tar.gz
 Source11: http://garr.dl.sourceforge.net/project/flex/flex-%{flexVersion}.tar.bz2
 %endif
