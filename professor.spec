@@ -11,3 +11,6 @@ ${PYTHON_ROOT}/bin/python setup.py build
 
 %install
 ${PYTHON_ROOT}/bin/python setup.py install --prefix=%i
+
+find %{i} -type f -exec sed -ideleteme '1 { s|^#!.*/bin/python|#!/usr/bin/env python| }' {} \;
+find %{i} -name '*deleteme' -delete
