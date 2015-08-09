@@ -136,7 +136,6 @@ Requires: yaml-cpp-toolfile
 Requires: gmp-static-toolfile
 Requires: mpfr-static-toolfile
 Requires: fastjet-contrib-toolfile
-Requires: cuda-toolfile
 Requires: opencl-toolfile
 Requires: opencl-cpp-toolfile
 Requires: qd-toolfile
@@ -159,8 +158,9 @@ Requires: openldap-toolfile
 Requires: python-ldap-toolfile
 Requires: google-perftools-toolfile
 Requires: igprof-toolfile
-%if %isnotaarch64
+%if %isamd64
 Requires: dmtcp-toolfile
+Requires: cuda-toolfile
 %endif
 %endif
 

@@ -1,11 +1,11 @@
-### RPM external sqlite 3.8.4.3
-Source: https://sqlite.org/2014/sqlite-autoconf-3080403.tar.gz
+### RPM external sqlite 3.8.11.1
+Source: https://www.sqlite.org/2015/sqlite-autoconf-3081101.tar.gz
 
 BuildRequires: autotools
 Requires: readline ncurses
 
 %prep
-%setup -n sqlite-autoconf-3080403
+%setup -n sqlite-autoconf-3081101
 
 %build
 
