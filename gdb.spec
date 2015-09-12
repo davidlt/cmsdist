@@ -1,7 +1,7 @@
 ### RPM external gdb 7.10
 Source: http://ftp.gnu.org/gnu/%{n}/%{n}-%{realversion}.tar.gz
 Patch0: gdb-7.6-fix-pythonhome
-Patch1: gdb-7.9.1-tgetent-in-ncurses
+Patch1: gdb-7.10-tgetent-in-ncurses
 Patch2: gdb-disable-makeinfo
 Requires: python ncurses zlib xz expat
 BuildRequires: autotools
