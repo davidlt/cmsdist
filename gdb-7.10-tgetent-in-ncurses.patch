@@ -12,10 +12,10 @@ index 52bd1c3..8b954d3 100644
  dnl Test for the exact version when AC_INIT is expanded.
  dnl This allows to update the tree in steps (for testing)
 diff --git a/gdb/configure.ac b/gdb/configure.ac
-index 96845ac..152d520 100644
+index a40860a..92bc139 100644
 --- a/gdb/configure.ac
 +++ b/gdb/configure.ac
-@@ -614,7 +614,7 @@ case $host_os in
+@@ -620,7 +620,7 @@ case $host_os in
  esac
  
  # These are the libraries checked by Readline.
@@ -23,4 +23,4 @@ index 96845ac..152d520 100644
 +AC_SEARCH_LIBS(tgetent, [curses ncurses])
  
  if test "$ac_cv_search_tgetent" = no; then
-   AC_MSG_ERROR([no termcap library found])
+   CONFIG_OBS="$CONFIG_OBS stub-termcap.o"
