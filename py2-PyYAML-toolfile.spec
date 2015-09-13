@@ -12,7 +12,7 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-PyYAML.xml
   <info url="https://github.com/PyYAML/PyYAML"/>
   <client>
     <environment name="PY2_PYYAML" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_PYYAML/lib"/>
+    <environment name="LIBDIR" default="$PY2_PYYAML/lib64"/>
     <runtime name="PYTHONPATH" value="$PY2_PYYAML/lib64/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
