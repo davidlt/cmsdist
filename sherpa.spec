@@ -6,7 +6,7 @@ Source: git+https://github.com/%github_user/%{n}.git?obj=%{branch}/%{tag}&export
 Requires: hepmc lhapdf blackhat sqlite fastjet openssl
 BuildRequires: mcfm
 
-%if "%(case %cmsplatf in (slc*_amd64) echo true ;; (*) echo false ;; esac)" == "true"
+%if "%(case %cmsplatf in (slc*) echo true ;; (*) echo false ;; esac)" == "true"
 #Requires: openloops
 %endif
 
