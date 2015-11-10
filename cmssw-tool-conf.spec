@@ -19,11 +19,10 @@ Requires: clhep-toolfile
 Requires: coral-toolfile
 Requires: cppunit-toolfile
 Requires: curl-toolfile
-Requires: das-client-toolfile
+Requires: das_client-toolfile
 Requires: db6-toolfile
 Requires: dbs-client-toolfile
 Requires: dpm-toolfile
-Requires: evtgenlhc-toolfile
 Requires: evtgen-toolfile
 Requires: expat-toolfile
 Requires: fakesystem
@@ -102,6 +101,7 @@ Requires: py2-markupsafe-toolfile
 Requires: py2-ordereddict-toolfile
 Requires: py2-parsimonious-toolfile
 Requires: py2-pygments-toolfile
+Requires: py2-pysqlite-toolfile
 Requires: py2-PyYAML-toolfile
 Requires: py2-docopt-toolfile
 Requires: py2-prettytable-toolfile
@@ -180,7 +180,7 @@ Requires: py2-cx-oracle-toolfile
 Requires: oracle-toolfile
 
 # Only for slc platforms.
-%if %isslcamd64
+%if %isslc
 #Requires: openloops-toolfile
 %endif
 
