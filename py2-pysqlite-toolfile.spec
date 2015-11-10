@@ -12,8 +12,8 @@ cat << \EOF_TOOLFILE >%{i}/etc/scram.d/py2-pysqlite.xml
   <info url="https://pypi.python.org/pypi/pysqlite"/>
   <client>
     <environment name="PY2_PYSQLITE" default="@TOOL_ROOT@"/>
-    <environment name="LIBDIR" default="$PY2_PYSQLITE/lib"/>
-    <runtime name="PYTHONPATH" value="$PY2_PYSQLITE/lib/python@PYTHONV@/site-packages" type="path"/>
+    <environment name="LIBDIR" default="$PY2_PYSQLITE/lib64"/>
+    <runtime name="PYTHONPATH" value="$PY2_PYSQLITE/lib64/python@PYTHONV@/site-packages" type="path"/>
   </client>
 </tool>
 EOF_TOOLFILE
