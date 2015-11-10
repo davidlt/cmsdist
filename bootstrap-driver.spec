@@ -179,7 +179,8 @@ slc*)
                               time perl-Carp perl-Text-ParseWords perl-PathTools perl-ExtUtils-MakeMaker
                               perl-Exporter perl-File-Path perl-Getopt-Long perl-constant perl-File-Temp
                               perl-Socket perl-Time-Local perl-Storable glibc-headers perl-threads
-                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch"
+                              perl-Thread-Queue perl-Module-ScanDeps perl-Test-Harness perl-Env perl-Switch
+                              perl-ExtUtils-Embed ncurses-libs perl-libs"
 
   slc6_mic_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype compat-readline5 ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
