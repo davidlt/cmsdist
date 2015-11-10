@@ -13,8 +13,6 @@ BuildRequires: cmake ninja file
 
 Requires: gsl libjpg libpng libtiff giflib pcre python fftw3 xz xrootd libxml2 openssl zlib
 
-Patch0: root-disable-ncurses-tinfo
-
 %if %islinux
 Requires: castor dcap
 %endif
@@ -32,7 +30,6 @@ Requires: freetype
 
 %prep
 %setup -n %{n}-%{realversion}
-%patch0 -p1
 
 %build
 rm -rf ../build
@@ -51,7 +48,6 @@ cmake ../%{n}-%{realversion} \
   -DCMAKE_CXX_COMPILER=g++ \
   -DCMAKE_F_COMPILER=gfortran \
   -DCMAKE_LINKER=ld \
-  -DLLVM_ENABLE_TERMINFO=OFF \
   -Dfail-on-missing=ON \
   -Dgnuinstall=OFF \
   -Droofit=ON \
