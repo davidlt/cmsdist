@@ -1,0 +1,52 @@
+diff --git a/cmake/modules/SearchInstalledSoftware.cmake b/cmake/modules/SearchInstalledSoftware.cmake
+index 78d8a82..a93ec37 100644
+--- a/cmake/modules/SearchInstalledSoftware.cmake
++++ b/cmake/modules/SearchInstalledSoftware.cmake
+@@ -651,12 +651,6 @@ else()
+ endif()
+ 
+ #---Check for cling and llvm --------------------------------------------------------
+-find_library(CMAKE_TINFO_LIBS NAMES tinfo ncurses)
+-mark_as_advanced(CMAKE_TINFO_LIBS)
+-if(NOT CMAKE_TINFO_LIBS)
+-  set(CMAKE_TINFO_LIBS "")   #  Often if not found is still OK
+-endif()
+-
+ if(cling)
+   if(builtin_llvm)
+     set(LLVM_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/interpreter/llvm/src/include
+diff --git a/core/meta/CMakeLists.txt b/core/meta/CMakeLists.txt
+index 8adc2e9..c640235 100644
+--- a/core/meta/CMakeLists.txt
++++ b/core/meta/CMakeLists.txt
+@@ -33,7 +33,7 @@ ROOT_LINKER_LIBRARY(Cling
+                     ${CMAKE_SOURCE_DIR}/core/metautils/src/TMetaUtils.cxx
+                     $<TARGET_OBJECTS:MetaLLVM>
+                     $<TARGET_OBJECTS:MetaUtilsLLVM>
+-                    LIBRARIES ${CLING_LIBRARIES} ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_TINFO_LIBS}
++                    LIBRARIES ${CLING_LIBRARIES} ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT}
+                     DEPENDENCIES Core RIO)
+ 
+ ROOT_INSTALL_HEADERS()
+diff --git a/core/utils/CMakeLists.txt b/core/utils/CMakeLists.txt
+index 9d80cb5..4f9aea4 100644
+--- a/core/utils/CMakeLists.txt
++++ b/core/utils/CMakeLists.txt
+@@ -37,7 +37,7 @@ ROOT_EXECUTABLE(rootcling src/LinkdefReader.cxx src/DictSelectionReader.cxx
+                           ${winnt_objects}
+                           LIBRARIES ${PCRE_LIBRARIES} ${LZMA_LIBRARIES} ${ZLIB_LIBRARY}
+                                     ${CLING_LIBRARIES} ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT}
+-                                    ${CMAKE_TINFO_LIBS} ${corelinklibs})
++                                    ${corelinklibs})
+ 
+ add_dependencies(rootcling CLING LLVMRES)
+ 
+@@ -83,7 +83,7 @@ ROOT_EXECUTABLE(rootcling_tmp src/LinkdefReader.cxx src/DictSelectionReader.cxx
+                               $<TARGET_OBJECTS:Clib>
+                               $<TARGET_OBJECTS:MetaUtils>
+                               $<TARGET_OBJECTS:MetaUtilsLLVM>
+-                              LIBRARIES ${CLING_LIBRARIES}  ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_TINFO_LIBS}
++                              LIBRARIES ${CLING_LIBRARIES}  ${CMAKE_DL_LIBS} ${CMAKE_THREAD_LIBS_INIT}
+                               NOINSTALL)
+ add_dependencies(rootcling_tmp CLING LLVMRES)
+ set_source_files_properties(src/LinkdefReader.cxx PROPERTIES COMPILE_FLAGS -fno-rtti)
