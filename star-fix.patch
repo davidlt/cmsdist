@@ -1,0 +1,63 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 805aeeb..2a38ff4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -270,6 +270,13 @@ set(SOURCES
+   src/incoherentPhotonNucleusLuminosity.cpp
+   src/incoherentVMCrossSection.cpp
+   )
++if(ENABLE_CLHEP)
++  set (SOURCES
++                ${SOURCES}
++                src/CLHEPrandomgenerator.cpp
++                )
++  include_directories(${CLHEP_INCLUDE_DIR})
++endif()
+ if(ENABLE_PYTHIA) 
+   set (SOURCES
+ 		${SOURCES}
+diff --git a/cmake_modules/FindCLHEP.cmake b/cmake_modules/FindCLHEP.cmake
+index da33e66..398aa55 100644
+--- a/cmake_modules/FindCLHEP.cmake
++++ b/cmake_modules/FindCLHEP.cmake
+@@ -1,6 +1,14 @@
+-FIND_PATH(CLHEP_INCLUDE_DIR clhep.h /usr/include/ usr/local/include/ $ENV{CLHEPDIR}/include)
++FIND_PATH(CLHEP_INCLUDE_DIR CLHEP/Units/defs.h /usr/include/ usr/local/include/ $ENV{CLHEPDIR}/include)
+ 
+-FIND_LIBRARY(CLHEP_LIBRARY NAMES clhep PATHS /usr/lib /usr/lib/CLHEP /usr/local/lib $ENV{CLHEPDIR}/lib)
++FIND_LIBRARY(CLHEP_LIBRARY NAMES CLHEP PATHS /usr/lib /usr/lib/CLHEP /usr/local/lib $ENV{CLHEPDIR}/lib)
++
++IF (CLHEP_INCLUDE_DIR)
++    MESSAGE(STATUS "FOUND DAVIDLT INCL: ${CLHEP_INCLUDE_DIR}")
++ENDIF (CLHEP_INCLUDE_DIR)
++
++IF (CLHEP_LIBRARY)
++    MESSAGE(STATUS "FOUND DAVIDLT LIB: ${CLHEP_LIBRARY}")
++ENDIF (CLHEP_LIBRARY)
+ 
+ IF (CLHEP_INCLUDE_DIR AND CLHEP_LIBRARY)
+      SET(CLHEP_FOUND TRUE)
+diff --git a/include/CLHEPrandomgenerator.h b/include/CLHEPrandomgenerator.h
+index b4ca3d8..45edafd 100644
+--- a/include/CLHEPrandomgenerator.h
++++ b/include/CLHEPrandomgenerator.h
+@@ -34,6 +34,7 @@
+ #ifndef CLHEPRANDOMGENERATOR_H
+ #define CLHEPRANDOMGENERATOR_H
+ #include "singleton.h"
++#include "randomgenerator.h"
+ 
+ namespace CLHEP
+ {
+diff --git a/src/CLHEPrandomgenerator.cpp b/src/CLHEPrandomgenerator.cpp
+index ce9c88c..b2e12f2 100644
+--- a/src/CLHEPrandomgenerator.cpp
++++ b/src/CLHEPrandomgenerator.cpp
+@@ -37,6 +37,7 @@
+ 
+ #include "CLHEPrandomgenerator.h"
+ #include <CLHEP/Random/Randomize.h>
++#include <CLHEP/Random/Random.h>
+ 
+ using namespace std;
+ using namespace CLHEP;
