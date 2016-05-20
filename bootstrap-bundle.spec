@@ -8,7 +8,7 @@ BuildRequires: bz2lib-bootstrap db6-bootstrap file-bootstrap libxml2-bootstrap l
 BuildRequires: openssl-bootstrap popt-bootstrap zlib-bootstrap xz-bootstrap ncurses-bootstrap readline-bootstrap libarchive-bootstrap
 
 %define keep_archives true
-%define is64bit %(case %{cmsplatf} in (*_amd64_*|*_mic_*|*_aarch64_*|*_ppc64le_*) echo 1 ;; (*) echo 0 ;; esac)
+%define is64bit %(case %{cmsplatf} in (*_amd64_*|*_mic_*|*_aarch64_*|*_ppc64le_*|*_ppc64_*) echo 1 ;; (*) echo 0 ;; esac)
 %define ismac   %(case %{cmsplatf} in (osx*) echo 1 ;; (*) echo 0 ;; esac)
 
 %define soname so

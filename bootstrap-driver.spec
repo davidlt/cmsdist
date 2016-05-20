@@ -163,6 +163,12 @@ slc*)
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft-devel
         libXrender libXpm libcom_err perl-Test-Harness libX11-devel libXpm-devel libXext-devel mesa-libGLU-devel"
 
+  slc6_ppc64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype ncurses-libs perl-libs
+        fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
+        libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft-devel
+        libXrender libXpm libcom_err perl-Test-Harness libX11-devel libXext-devel mesa-libGLU-devel
+        nspr nss nss-util file file-libs readline zlib popt bzip2 bzip2-libs"
+
   slc7_amd64_platformSeeds="glibc coreutils bash tcsh zsh perl tcl tk readline openssl ncurses e2fsprogs krb5-libs freetype ncurses-libs perl-libs perl-ExtUtils-Embed
         fontconfig compat-libstdc++-33 libidn libX11 libXmu libSM libICE libXcursor
         libXext libXrandr libXft mesa-libGLU mesa-libGL e2fsprogs-libs libXi libXinerama libXft-devel
@@ -246,15 +252,6 @@ fc*)
   ;;
 esac
 
-case $cmsplatf in
-    ydl*_ppc64_* )
-        platformSeeds="$platformSeeds gcc libgcc libstdc++"
-    ;;
-    ydl*_ppc_* )
-        platformSeeds="$platformSeeds gcc libgcc libstdc++"
-    ;;
-esac
-
 slc5_compPackages="compat-readline43 libXp libXtst libXt"
 
 # Seeds for unsupported platforms. These will not make bootstrap die, if not found.
@@ -313,6 +310,7 @@ mkdir -p %{i}/etc/profile.d
  echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
  echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds\""; \
+ echo "slc6_ppc64_platformSeeds=\"$slc6_ppc64_platformSeeds\""; \
  echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds\""; \
  echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds\""; \
  echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds\""; \
@@ -341,6 +339,7 @@ mkdir -p %{i}/etc/profile.d
  echo "fc19_aarch64_platformSeeds=\"$fc19_aarch64_platformSeeds\""; \
  echo "slc5_corei7_platformSeeds=\"$slc5_corei7_platformSeeds $slc5_compPackages\""; \
  echo "slc6_amd64_platformSeeds=\"$slc6_amd64_platformSeeds $slc6_compPackages\""; \
+ echo "slc6_ppc64_platformSeeds=\"$slc6_ppc64_platformSeeds\""; \
  echo "slc7_amd64_platformSeeds=\"$slc7_amd64_platformSeeds $slc7_compPackages\""; \
  echo "slc7_aarch64_platformSeeds=\"$slc7_aarch64_platformSeeds $slc7_compPackages\""; \
  echo "fc22_ppc64le_platformSeeds=\"$fc22_ppc64le_platformSeeds $slc7_compPackages\""; \
